@@ -26,6 +26,8 @@
 #include "driverlib/timer.h"
 #include "driverlib/uart.h"
 #include "driverlib/rom.h"
+#include <stdint.h>
+
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
@@ -63,10 +65,10 @@ static void setup()
   // GPIOPadConfigSet(GPIO_PORTD_BASE, 0x0F, GPIO_PIN_TYPE_STD_WPU, GPIO_STRENGTH_2MA);
 }
 
-static void uart_putchar(int ch)
+static void uart_putchar(uint8_t ch)
 {
-    // UARTCharPutNonBlocking(UART7_BASE, ch);
-    UARTCharPut(UART7_BASE, ch);
+    UARTCharPutNonBlocking(UART7_BASE, ch);
+    // UARTCharPut(UART7_BASE, ch);
 }
 
 void write(char*str)
@@ -75,7 +77,7 @@ void write(char*str)
     uart_putchar(*str++);
 }
 
-static void uart_hex8(unsigned char b)
+static void uart_hex8(uint8_t b)
 {
   unsigned char z;
 
@@ -90,7 +92,7 @@ static void uart_hex8(unsigned char b)
   uart_putchar(z);
 }
 
-static void uart_hex16(unsigned int w)
+static void uart_hex16(uint16_t w)
 {
   uart_hex8(w >> 8);
   uart_hex8(w & 0xff);
@@ -121,7 +123,7 @@ unsigned long ADC_In(unsigned long channel)
   return (average/(samples));
 }
 
-volatile int table[128];
+volatile int16_t table[128];
 
 #define SLOP 32
 
@@ -129,23 +131,23 @@ int main(void)
 {
   setup();
 
-  unsigned char i = 0;
-  unsigned int level = 0;
+  int8_t i = 0;
 
   uart_putchar(0xFE);
   uart_putchar(0x01);
 
   for (;;)
   {
-    for(i = 0; i < 32; i++)
+    for(i = 0; i < 80; i++)
     {
       GPIO_PORTD_DATA_R = (GPIO_PORTD_DATA_R & 0xF0) | (i & 0x0F);
       GPIO_PORTC_DATA_R = (GPIO_PORTC_DATA_R & 0x0F) | (i & 0xF0);
 
+      // give the analog circuit time to settle
       SysCtlDelay(10000);
-      level = ADC_In(0);
 
-      int diff =  table[i] - level;
+      int16_t level = ADC_In(0);
+      int16_t diff =  table[i] - level;
       if (diff > SLOP || diff < -SLOP)
       {
 	table[i] = level;
@@ -155,6 +157,10 @@ int main(void)
 	uart_hex8(i+1);
 	uart_putchar('=');
 	uart_hex16(level);
+      }
+      else
+      {
+	table[i] = (table[i] * 3 + level) / 4;
       }
 
       SysCtlDelay(5000);
