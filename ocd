@@ -1,0 +1,7 @@
+#!/bin/sh -x
+
+OCD=$HOME/arm/sw/openocd-bin
+
+cd $OCD
+
+SU $PWD/openocd --file $PWD/LM4F120XL.cfg

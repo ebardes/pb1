@@ -26,27 +26,61 @@
 #include "driverlib/timer.h"
 #include "driverlib/uart.h"
 #include "driverlib/rom.h"
+#include "utils/uartstdio.h"
 #include <stdint.h>
 
+#include "acn.h"
+#include "mac.h"
 
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+#define TICKS_PER_SEC 5
 
-static void setup()
+#define FADERS 75
+#define BUMPS 24
+
+volatile uint32_t time;
+
+void SysTick_IntHandler(void)
+{
+  time++;
+}
+
+void setup()
 {
   SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
 
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_UART7);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
 
+  // LED pins
+  GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3);
+  GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
+
+  /*
+   * Bump sense pin
+   */
+  GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_2);
+
+  /*
+   * Setup the tick clock.
+   */
+  SysTickDisable();
+  SysTickIntRegister(SysTick_IntHandler);
+  SysTickPeriodSet(SysCtlClockGet()/TICKS_PER_SEC);
+  SysTickIntEnable();
+  SysTickEnable();
+
+#ifdef DEBUG
   /*
    * UART Init
    */
   GPIOPinConfigure(GPIO_PE1_U7TX);
   UARTConfigSetExpClk(UART7_BASE, SysCtlClockGet(), 9600, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
   GPIOPinTypeUART(GPIO_PORTE_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+#endif
 
   /*
    * ADC
@@ -63,15 +97,29 @@ static void setup()
   GPIO_PORTC_DEN_R = 0xF0;
 
   // GPIOPadConfigSet(GPIO_PORTD_BASE, 0x0F, GPIO_PIN_TYPE_STD_WPU, GPIO_STRENGTH_2MA);
+
+#ifdef DEBUG
+  InitConsole();
+#endif
+  ssi_setup();
+
+  for (int i = 0; i < 2; i++)
+    SysCtlDelay(SysCtlClockGet()/3);
+
+  wiz_init();
+
+  SysCtlDelay(SysCtlClockGet()/3);
+  GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
 }
 
+#ifdef DEBUG
 static void uart_putchar(uint8_t ch)
 {
     UARTCharPutNonBlocking(UART7_BASE, ch);
     // UARTCharPut(UART7_BASE, ch);
 }
 
-void write(char*str)
+static void write(char*str)
 {
   while (*str)
     uart_putchar(*str++);
@@ -97,13 +145,13 @@ static void uart_hex16(uint16_t w)
   uart_hex8(w >> 8);
   uart_hex8(w & 0xff);
 }
-
+#endif
 
 unsigned long ADC_In(unsigned long channel)
 {
   unsigned long temp [8];
-  char samples;
   unsigned long average = 0;
+  char samples;
   int i;
   
   ADCSequenceDisable(ADC0_BASE, 1);
@@ -113,8 +161,8 @@ unsigned long ADC_In(unsigned long channel)
   
   ADCProcessorTrigger(ADC0_BASE, 1); //startsequence
   do {
-    samples = ADCSequenceDataGet(ADC0_BASE, 1, temp);
-    } while(!samples);
+     samples = ADCSequenceDataGet(ADC0_BASE, 1, temp);
+     } while(!samples);
   
   for(i=0; i<samples; i++)
   {
@@ -123,22 +171,32 @@ unsigned long ADC_In(unsigned long channel)
   return (average/(samples));
 }
 
-volatile int16_t table[128];
+volatile int16_t fader_table[FADERS+BUMPS];
 
 #define SLOP 32
 
+volatile struct E131_2009 packet;
+
 int main(void)
 {
+
+  IntMasterDisable();
   setup();
+  memcpy((void*)&packet, (void*)raw_acn_packet, sizeof(packet));
 
   int8_t i = 0;
-
+#ifdef DEBUG
   uart_putchar(0xFE);
   uart_putchar(0x01);
+#endif
 
+  IntMasterEnable();
   for (;;)
   {
-    for(i = 0; i < 80; i++)
+    /*
+     * This console has 75 faders and 24 bump buttons
+     */
+    for(i = 0; i < FADERS; i++)
     {
       GPIO_PORTD_DATA_R = (GPIO_PORTD_DATA_R & 0xF0) | (i & 0x0F);
       GPIO_PORTC_DATA_R = (GPIO_PORTC_DATA_R & 0x0F) | (i & 0xF0);
@@ -147,24 +205,53 @@ int main(void)
       SysCtlDelay(10000);
 
       int16_t level = ADC_In(0);
-      int16_t diff =  table[i] - level;
+      int16_t diff =  fader_table[i] - level;
       if (diff > SLOP || diff < -SLOP)
       {
-	table[i] = level;
+	fader_table[i] = level;
 
+#ifdef DEBUG
 	uart_putchar(0xFE);
 	uart_putchar(0x80);
 	uart_hex8(i+1);
 	uart_putchar('=');
 	uart_hex16(level);
+#endif
       }
       else
       {
-	table[i] = (table[i] * 3 + level) / 4;
+	fader_table[i] = (fader_table[i] * 3 + level) / 4;
       }
 
-      SysCtlDelay(5000);
+      if (i < BUMPS)
+      {
+	if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_2))
+	  fader_table[i+FADERS] = 4096;
+        else
+	  fader_table[i+FADERS] = 0;
+      }
     }
+
+    packet.seq_num[0] = time & 0xFF;
+    packet.universe[1] = UNIVERSE;
+
+    for (int i = 0; i < ARRAY_SIZE(fader_table); i++)
+    {
+      uint8_t dmx;
+      long value = fader_table[i] - 128;
+      if (value < 0) {
+	dmx = 0;
+      } else if (value > 4095-256) {
+	dmx = 255;
+      } else {
+	dmx = value * 256 / (4095-256); // scale 12-bit value to 8-bit across an effective range that buffers the top and bottom
+      }
+      packet.dmx_data[i] = dmx;
+    }
+    acn_transmit(&packet);
+    SysCtlSleep();
+
+    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, (time & 0x01) << 1);
   }
 
   return 0;

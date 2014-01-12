@@ -1,0 +1,7 @@
+*.o
+*.asm
+*.d
+*.axf
+*.bin
+acnraw.h
+genframe

@@ -14,8 +14,6 @@
    limitations under the License.
  */
 
-#include <stdint.h>
-#include <stdbool.h>
 #include "inc/hw_memmap.h"
 #include "inc/hw_ssi.h"
 #include "inc/hw_types.h"
@@ -25,15 +23,19 @@
 #include "driverlib/pin_map.h"
 #include "driverlib/sysctl.h"
 #include "utils/uartstdio.h"
-
+#include <stdint.h>
+#include <stdbool.h>
 #include "acn.h"
+#include "mac.h"
 #include "w5100.h"
 
-static uint8_t raw_acn_packet[] = {
+#define STATIC
+
+const uint8_t raw_acn_packet[sizeof(struct E131_2009)] = {
 #include "acnraw.h"
 };
 
-static void ssi_setup(void)
+void ssi_setup(void)
 {
   SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI0);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
@@ -51,6 +53,7 @@ static void ssi_setup(void)
   long unsigned dummy;
   while(SSIDataGetNonBlocking(SSI0_BASE, &dummy))
     ; // empty
+
   SSIEnable(SSI0_BASE);
 }
 
@@ -64,7 +67,8 @@ static int ssi_xchg(int n)
   return v;
 }
 
-void InitConsole(void)
+#ifdef DEBUG
+STATIC void InitConsole(void)
 {
   //
   // Enable GPIO port A which is used for UART0 pins.
@@ -91,6 +95,7 @@ void InitConsole(void)
   //
   UARTStdioInit(0);
 }
+#endif
 
 void wiz_write(long address, long byte)
 {
@@ -100,7 +105,13 @@ void wiz_write(long address, long byte)
   ssi_xchg(byte);
 }
 
-static void wiz_write_buffer(long address, const unsigned char *buffer, int length)
+void wiz_write16(long address, long word)
+{
+  wiz_write(address, (word >> 8) & 0xFF);
+  wiz_write(address+1, word & 0xFF);
+}
+
+STATIC void wiz_write_buffer(long address, const unsigned char *buffer, int length)
 {
   while (length--)
   {
@@ -120,7 +131,12 @@ static int wiz_read(long address)
   return ssi_xchg(0);
 }
 
-static void wiz_setip(const unsigned char addr[4], const unsigned char mask[4], const unsigned char gate[4], const unsigned char mac[6])
+static int wiz_read16(long address)
+{
+  return (wiz_read(address) << 8) | wiz_read(address+1);
+}
+
+void wiz_setip(const unsigned char addr[4], const unsigned char mask[4], const unsigned char gate[4], const unsigned char mac[6])
 {
   wiz_write_buffer(0x0001, gate, 4);
   wiz_write_buffer(0x0005, mask, 4);
@@ -128,66 +144,81 @@ static void wiz_setip(const unsigned char addr[4], const unsigned char mask[4], 
   wiz_write_buffer(0x000f, addr, 4);
 }
 
-static void wiz_udpinit(int sock, int port, const unsigned char dest[])
+void wiz_open(int sock, const unsigned char dest[], int port)
 {
   int reg = W5100_SKT_BASE(sock);
-  wiz_write(reg+W5100_MR_OFFSET, 2); // udp mode
-  wiz_write(reg+W5100_PORT_OFFSET, (port>>8)&0xff);
-  wiz_write(reg+W5100_PORT_OFFSET+1, port & 0xff);
+
+  wiz_write(reg+W5100_CR_OFFSET, W5100_SKT_CR_CLOSE);
+
+  while (wiz_read(reg+W5100_CR_OFFSET))  ; // empty loop
+
+  wiz_write(reg+W5100_MR_OFFSET, W5100_SKT_MR_UDP | W5100_SKT_MR_MULTI); // udp | multi-cast mode
+  wiz_write16(reg+W5100_PORT_OFFSET, port);
+
+  wiz_write_buffer(reg+W5100_DIPR_OFFSET, dest, 4);
+  for (int i = 0; i < 6; i++)
+    wiz_write(reg+W5100_DHAR_OFFSET+i, 0xff);
+  wiz_write16(reg+W5100_DPORT_OFFSET, port);
+
   wiz_write(reg+W5100_CR_OFFSET, W5100_SKT_CR_OPEN);
 
   while (wiz_read(reg+W5100_CR_OFFSET))  ; // empty loop
 
-  wiz_write_buffer(reg+W5100_DIPR_OFFSET, dest, 4);
-  wiz_write(reg+W5100_DPORT_OFFSET, (port>>8)&0xff);
-  wiz_write(reg+W5100_DPORT_OFFSET+1, port & 0xff);
 }
 
+/*
+ * Send a packet of data
+ */
 void wiz_send(int sock, const uint8_t*data, int length)
 {
+  if (length == 0 || data == 0)
+    return;
+
   int reg = W5100_SKT_BASE(sock);
-  
-  int offset = wiz_read(reg+W5100_TX_WR_OFFSET);
-  wiz_write_buffer(reg+W5100_TXBUFADDR+offset, data, length);
-
-  int x = wiz_read(reg+W5100_TX_WR_OFFSET);
-  x += length;
-  wiz_write(reg+W5100_TX_WR_OFFSET, x);
-  wiz_write(reg+W5100_CR_OFFSET, W5100_SKT_CR_SEND);
-
-  UARTprintf("Packet: x=%d  offset=%d\n", x);
-
-  while (wiz_read(reg+W5100_CR_OFFSET))  ; // empty loop
-}
-
-int main(void)
-{
-  SysCtlClockSet(SYSCTL_SYSDIV_4|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
-
-  InitConsole();
-  ssi_setup();
-
-  UARTprintf("\033[2J\033[H");
-
-  const unsigned char mac[]  = { 0x90, 0xa2, 0xda, 0xd0, 0xf1, 0xfe };
-  const unsigned char ip[]   = { 192,168,1,133 };
-  const unsigned char mask[] = { 255,255,255,0 };
-  const unsigned char gate[] = { 192,168,1,15 };
-  const unsigned char dest[] = { 192,168,1,233 };
-
-  UARTprintf("Config IP\n");
-
-  wiz_setip(ip, mask, gate, mac);
-
-  UARTprintf("Setup UDP\n");
-
-  wiz_udpinit(0, 5568, dest);
-  for (;;)
+  int free;
+  while ((free = wiz_read16(reg+W5100_TX_FSR_OFFSET)) < length)
   {
-    wiz_send(0, (const uint8_t*) &raw_acn_packet, sizeof(raw_acn_packet));
-    SysCtlDelay(10000000);
-
+    SysCtlDelay(100);
+  }
+  
+  int offset = wiz_read16(reg+W5100_TX_WR_OFFSET);
+#ifdef DEBUG
+  int initialoffset = offset;
+#endif
+  while (length--)
+  {
+    int realaddr = W5100_TXBUFADDR + (offset & W5100_TX_BUF_MASK);
+    wiz_write(realaddr, *data++);
+    offset++;
   }
 
-  return 0;
+  wiz_write16(reg+W5100_TX_WR_OFFSET, offset);
+  wiz_write(reg+W5100_TTL_OFFSET, 8);
+  wiz_write(reg+W5100_CR_OFFSET, W5100_SKT_CR_SEND);
+  while (wiz_read(reg+W5100_CR_OFFSET))  ; // empty loop
+  
+#ifdef DEBUG
+  UARTprintf("Packet: initialoffset=%04x offset=%04x length=%04x\n", initialoffset, offset, length);
+#endif
+}
+
+const unsigned char mac[]  = { 0x90, 0xa2, 0xda, 0xd0, 0xf1, 0xfe };
+const unsigned char ip[]   = { 192,168,1,133 };
+const unsigned char mask[] = { 255,255,255,0 };
+const unsigned char gate[] = { 192,168,1,15 };
+const unsigned char dest[] = { 239,255,0, UNIVERSE };
+
+void wiz_init()
+{
+#ifdef DEBUG
+  UARTprintf("Config IP\n");
+#endif
+
+  wiz_setip(ip, mask, gate, mac);
+  wiz_open(0, dest, 5568);
+}
+
+void acn_transmit(volatile struct E131_2009 *packet)
+{
+  wiz_send(0, (unsigned char*) packet, sizeof(*packet));
 }

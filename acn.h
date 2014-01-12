@@ -34,7 +34,9 @@ struct E131_2009
   uint8_t first_addr		[2];
   uint8_t addr_inc		[2];
   uint8_t dmx_size		[2];
-  uint8_t dmx_data		[1];
+  uint8_t dmx_start_code	[1];
+  uint8_t dmx_data		[512];
 };
 
+extern const uint8_t raw_acn_packet[sizeof(struct E131_2009)];
 #endif
