@@ -43,7 +43,7 @@ int main()
   SET(packet.dl_version, 0x02);
   SET(packet.dl_addr_type, 0xA1);
   SET(packet.addr_inc, 0x01);
-  SET(packet.dmx_size, 0x201);
+  SET(packet.dmx_size, sizeof(packet.dmx_data)+1);
 
   // memset(packet.dmx_data, 0xff, sizeof(packet.dmx_data));
 

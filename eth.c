@@ -46,7 +46,7 @@ void ssi_setup(void)
   GPIOPinConfigure(GPIO_PA5_SSI0TX);
   GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_5 | GPIO_PIN_4 | GPIO_PIN_3 | GPIO_PIN_2);
 
-  SSIConfigSetExpClk(SSI0_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, 1000000, 8);
+  SSIConfigSetExpClk(SSI0_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, 6000000, 8);
   SSIEnable(SSI0_BASE);
 
   // Read any residual data from the SSI port.
@@ -175,10 +175,12 @@ void wiz_send(int sock, const uint8_t*data, int length)
     return;
 
   int reg = W5100_SKT_BASE(sock);
+  while (wiz_read(reg+W5100_CR_OFFSET))  ; // empty loop
+
   int free;
   while ((free = wiz_read16(reg+W5100_TX_FSR_OFFSET)) < length)
   {
-    SysCtlDelay(100);
+    SysCtlDelay(10);
   }
   
   int offset = wiz_read16(reg+W5100_TX_WR_OFFSET);
@@ -195,7 +197,6 @@ void wiz_send(int sock, const uint8_t*data, int length)
   wiz_write16(reg+W5100_TX_WR_OFFSET, offset);
   wiz_write(reg+W5100_TTL_OFFSET, 8);
   wiz_write(reg+W5100_CR_OFFSET, W5100_SKT_CR_SEND);
-  while (wiz_read(reg+W5100_CR_OFFSET))  ; // empty loop
   
 #ifdef DEBUG
   UARTprintf("Packet: initialoffset=%04x offset=%04x length=%04x\n", initialoffset, offset, length);

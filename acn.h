@@ -1,6 +1,8 @@
 #ifndef _ACN_H_
 #define _ACN_H_
 
+#define DMX_CHANNELS 256
+
 struct E131_2009
 {
   /*
@@ -35,7 +37,7 @@ struct E131_2009
   uint8_t addr_inc		[2];
   uint8_t dmx_size		[2];
   uint8_t dmx_start_code	[1];
-  uint8_t dmx_data		[512];
+  uint8_t dmx_data		[DMX_CHANNELS];
 };
 
 extern const uint8_t raw_acn_packet[sizeof(struct E131_2009)];

@@ -32,7 +32,7 @@
 #include "acn.h"
 #include "mac.h"
 
-#define TICKS_PER_SEC 5
+#define TICKS_PER_SEC 22
 
 #define FADERS 75
 #define BUMPS 24
@@ -42,6 +42,9 @@ volatile uint32_t time;
 void SysTick_IntHandler(void)
 {
   time++;
+  if (time >= 44)
+    time=0;
+//  GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, (time & 0x01) << 3);
 }
 
 void setup()
@@ -66,12 +69,12 @@ void setup()
 
   /*
    * Setup the tick clock.
-   */
   SysTickDisable();
   SysTickIntRegister(SysTick_IntHandler);
   SysTickPeriodSet(SysCtlClockGet()/TICKS_PER_SEC);
   SysTickIntEnable();
   SysTickEnable();
+   */
 
 #ifdef DEBUG
   /*
@@ -86,7 +89,7 @@ void setup()
    * ADC
    */
   GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_2 | GPIO_PIN_3);
-  ADCHardwareOversampleConfigure(ADC0_BASE, 64); // Hardware averaging. ( 2, 4, 8, 16, 32, 64 )
+  ADCHardwareOversampleConfigure(ADC0_BASE, 32); // Hardware averaging. ( 2, 4, 8, 16, 32, 64 )
   SysCtlADCSpeedSet(SYSCTL_ADCSPEED_250KSPS); //ADC Sample Rate set to 250 Kilo Samples Per Second
 
   // Enable the GPIO pins for digital function.
@@ -102,9 +105,6 @@ void setup()
   InitConsole();
 #endif
   ssi_setup();
-
-  for (int i = 0; i < 2; i++)
-    SysCtlDelay(SysCtlClockGet()/3);
 
   wiz_init();
 
@@ -179,7 +179,6 @@ volatile struct E131_2009 packet;
 
 int main(void)
 {
-
   IntMasterDisable();
   setup();
   memcpy((void*)&packet, (void*)raw_acn_packet, sizeof(packet));
@@ -202,7 +201,7 @@ int main(void)
       GPIO_PORTC_DATA_R = (GPIO_PORTC_DATA_R & 0x0F) | (i & 0xF0);
 
       // give the analog circuit time to settle
-      SysCtlDelay(10000);
+      SysCtlDelay(1000);
 
       int16_t level = ADC_In(0);
       int16_t diff =  fader_table[i] - level;
@@ -232,9 +231,9 @@ int main(void)
       }
     }
 
-    packet.seq_num[0] = time & 0xFF;
     packet.universe[1] = UNIVERSE;
 
+    int8_t changed = 0;
     for (int i = 0; i < ARRAY_SIZE(fader_table); i++)
     {
       uint8_t dmx;
@@ -246,12 +245,24 @@ int main(void)
       } else {
 	dmx = value * 256 / (4095-256); // scale 12-bit value to 8-bit across an effective range that buffers the top and bottom
       }
-      packet.dmx_data[i] = dmx;
+
+      if (packet.dmx_data[i] != dmx)
+      {
+	changed=1;
+	packet.dmx_data[i] = dmx;
+      }
     }
-    acn_transmit(&packet);
-    SysCtlSleep();
+    if (changed || time == 0)
+    {
+      packet.seq_num[0]++;
+      acn_transmit(&packet);
+    }
+    // SysCtlSleep();
 
     GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, (time & 0x01) << 1);
+    time++;
+    if (time > 44)
+      time=0;
   }
 
   return 0;
