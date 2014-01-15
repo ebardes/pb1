@@ -46,7 +46,7 @@ void ssi_setup(void)
   GPIOPinConfigure(GPIO_PA5_SSI0TX);
   GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_5 | GPIO_PIN_4 | GPIO_PIN_3 | GPIO_PIN_2);
 
-  SSIConfigSetExpClk(SSI0_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, 6000000, 8);
+  SSIConfigSetExpClk(SSI0_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, 2500000, 8);
   SSIEnable(SSI0_BASE);
 
   // Read any residual data from the SSI port.
@@ -66,36 +66,6 @@ static int ssi_xchg(int n)
   v &= 0x00FF;
   return v;
 }
-
-#ifdef DEBUG
-STATIC void InitConsole(void)
-{
-  //
-  // Enable GPIO port A which is used for UART0 pins.
-  // TODO: change this to whichever GPIO port you are using.
-  //
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
-
-  //
-  // Configure the pin muxing for UART0 functions on port A0 and A1.
-  // This step is not necessary if your part does not support pin muxing.
-  // TODO: change this to select the port/pin you are using.
-  //
-  GPIOPinConfigure(GPIO_PA0_U0RX);
-  GPIOPinConfigure(GPIO_PA1_U0TX);
-
-  //
-  // Select the alternate (UART) function for these pins.
-  // TODO: change this to select the port/pin you are using.
-  //
-  GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
-
-  //
-  // Initialize the UART for console I/O.
-  //
-  UARTStdioInit(0);
-}
-#endif
 
 void wiz_write(long address, long byte)
 {

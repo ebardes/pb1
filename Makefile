@@ -5,7 +5,7 @@ CompilerPath=${HOME}/arm/gcc-arm-none-eabi
 CompilerBin=${CompilerPath}/bin
 
 CC=${CompilerBin}/arm-none-eabi-gcc
-CFLAGS=-mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -Os -ffunction-sections -fdata-sections -MD -std=c11 -Wall -fno-builtin -pedantic -DPART_LM4F120H5QR -I${StellarisWare} -Dgcc -g
+CFLAGS=-mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=soft -Os -ffunction-sections -fdata-sections -MD -std=c11 -Wall -fno-builtin -pedantic -DPART_LM4F120H5QR -I${StellarisWare} -Dgcc -g
 
 LD=${CompilerBin}/arm-none-eabi-ld 
 LDFLAGS=-g
@@ -17,7 +17,7 @@ OBJSIZE=${CompilerBin}/arm-none-eabi-size
 
 # arm-none-eabi-ld -T blinky.ld --entry ResetISR --gc-sections -o gcc/blinky.axf gcc/blinky.o gcc/startup_gcc.o /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7e-m/softfp/libm.a /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7e-m/softfp/libc.a /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/armv7e-m/softfp/libgcc.a
 
-OBJS=startup_gcc.o main.o eth.o uartstdio.o mem.o
+OBJS=startup_gcc.o main.o eth.o mem.o uartstdio.o
 LIBS=${StellarisWare}/driverlib/gcc-cm4f/libdriver-cm4f.a
 
 ma.bin: ma.axf
@@ -53,7 +53,7 @@ gdb: ma.bin
 	${CompilerBin}/arm-none-eabi-gdb ma.axf
 
 clean:
-	rm ma.bin
-	rm ma.axf
-	rm *.o
-	rm *.d
+	rm -f ma.bin
+	rm -f ma.axf
+	rm -f *.o
+	rm -f *.d
