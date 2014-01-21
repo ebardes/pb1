@@ -1,11 +1,11 @@
 
 
-StellarisWare=../sw
+StellarisWare=../tw
 CompilerPath=${HOME}/arm/gcc-arm-none-eabi
 CompilerBin=${CompilerPath}/bin
 
 CC=${CompilerBin}/arm-none-eabi-gcc
-CFLAGS=-mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=soft -Os -ffunction-sections -fdata-sections -MD -std=c11 -Wall -fno-builtin -pedantic -DPART_LM4F120H5QR -I${StellarisWare} -Dgcc -g
+CFLAGS=-mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=soft -Os -ffunction-sections -fdata-sections -MD -std=c11 -Wall -fno-builtin -pedantic -DPART_TM4C123GH6PM -I${StellarisWare} -Dgcc -g
 
 LD=${CompilerBin}/arm-none-eabi-ld 
 LDFLAGS=-g
@@ -17,8 +17,10 @@ OBJSIZE=${CompilerBin}/arm-none-eabi-size
 
 # arm-none-eabi-ld -T blinky.ld --entry ResetISR --gc-sections -o gcc/blinky.axf gcc/blinky.o gcc/startup_gcc.o /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7e-m/softfp/libm.a /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7e-m/softfp/libc.a /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/armv7e-m/softfp/libgcc.a
 
-OBJS=startup_gcc.o main.o eth.o mem.o uartstdio.o
-LIBS=${StellarisWare}/driverlib/gcc-cm4f/libdriver-cm4f.a
+OBJS=startup_gcc.o main.o eth.o mem.o usb_host_mouse.o uartstdio.o
+LIBS= \
+	${StellarisWare}/usblib/gcc/libusb.a \
+	${StellarisWare}/driverlib/gcc/libdriver.a \
 
 ma.bin: ma.axf
 	${OBJCOPY} -O binary ${@:.bin=.axf} ${@}
@@ -36,6 +38,8 @@ uartstdio.o: ${StellarisWare}/utils/uartstdio.c
 
 main.o: acn.h mac.h
 eth.o: acn.h mac.h acnraw.h
+mem.o: acn.h mac.h
+usbmouse.o: acn.h mac.h
 
 genframe.o: genframe.c acn.h
 	g++ -c -o $@ $<

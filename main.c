@@ -14,31 +14,16 @@
    limitations under the License.
  */
 
-#include "inc/lm4f120h5qr.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_types.h"
-#include "inc/hw_ints.h"
-#include "driverlib/interrupt.h"
-#include "driverlib/gpio.h"
-#include "driverlib/adc.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/systick.h"
-#include "driverlib/timer.h"
-#include "driverlib/uart.h"
-#include "driverlib/rom.h"
-#include "utils/uartstdio.h"
-#include <stdint.h>
-
-#include "acn.h"
 #include "mac.h"
 
 #define FADERS 75
 #define BUMPS 24
+#define KEYPAD 32
 #define DEBUG
 
-volatile uint32_t time;
+volatile uint32_t delay = 250;
 volatile uint32_t millisec;
-volatile uint32_t delay = 1000;
+volatile uint32_t ms_delay;
 
 void SysTick_IntHandler(void)
 {
@@ -47,7 +32,9 @@ void SysTick_IntHandler(void)
 
 void setup()
 {
-  SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
+  SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);
+
+  ms_delay = SysCtlClockGet() / 3000;
 
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
@@ -56,67 +43,77 @@ void setup()
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
-  SysCtlDelay(10);
-
   // LED pins
   GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3);
   GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
 
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_UART7);
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
-  SysCtlDelay(20);
+  /*
+   * Bump sense pin and control pad sense pins
+   *
+   * PE2 = Bump Sense
+   * PE4 = Column 3
+   * PE5 = Column 2
+   * PA6 = Column 1
+   * PA7 = Column 0
+   */
+  GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);
+  GPIOPadConfigSet(GPIO_PORTE_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
 
+  GPIOPinTypeGPIOInput(GPIO_PORTA_BASE, GPIO_PIN_6 | GPIO_PIN_7);
+  GPIOPadConfigSet(GPIO_PORTA_BASE, GPIO_PIN_6 | GPIO_PIN_7, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
 
   /*
-   * Bump sense pin
+   * LCD Control Pins
+   *
+   * PB4 - LCD4 - Register Select: 0 = Sel
+   * PB6 - LCD5 - R/W: 1=Read/0=Write
+   * PB7 - LCD6 - Enable H->L = latch
    */
-  GPIOPinTypeGPIOInput(GPIO_PORTA_BASE, GPIO_PIN_7);
-  GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_2);
+#define LCD_PIN_RS  GPIO_PIN_4
+#define LCD_PIN_RW  GPIO_PIN_6
+#define LCD_PIN_EN  GPIO_PIN_7
+#define LCD_PIN_ALL (GPIO_PIN_4 | GPIO_PIN_6 | GPIO_PIN_7)
 
-  GPIOPadConfigSet(GPIO_PORTE_BASE, GPIO_PIN_2, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
+  GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, LCD_PIN_ALL);
+  GPIOPadConfigSet(GPIO_PORTB_BASE, LCD_PIN_ALL, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
 
   /*
    * Setup the tick clock.
+   */
   SysTickDisable();
   SysTickIntRegister(SysTick_IntHandler);
   SysTickPeriodSet(SysCtlClockGet()/1000);
   SysTickIntEnable();
   SysTickEnable();
-   */
-
-#ifdef UART1
-  /*
-   * UART Init
-   */
-  GPIOPinConfigure(GPIO_PE1_U7TX);
-  UARTConfigSetExpClk(UART7_BASE, SysCtlClockGet(), 9600, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
-  GPIOPinTypeUART(GPIO_PORTE_BASE, GPIO_PIN_0 | GPIO_PIN_1);
-#endif
 
   /*
    * ADC
    */
   GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);
-  ADCHardwareOversampleConfigure(ADC0_BASE, 64); // Hardware averaging. ( 2, 4, 8, 16, 32, 64 )
-  SysCtlADCSpeedSet(SYSCTL_ADCSPEED_500KSPS); //ADC Sample Rate set to 250 Kilo Samples Per Second
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
 
+  ADCHardwareOversampleConfigure(ADC0_BASE, 64);
+  ADCSequenceConfigure(ADC0_BASE, 1, ADC_TRIGGER_PROCESSOR, 0);
+  ADCSequenceStepConfigure(ADC0_BASE, 1, 0, ADC_CTL_CH0);
+  ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH0 | ADC_CTL_IE | ADC_CTL_END);
+  ADCSequenceEnable(ADC0_BASE, 1);
+  ADCIntClear(ADC0_BASE, 1);
 
   // Enable the GPIO pins for digital function.
   //
-  GPIO_PORTD_DIR_R = 0x0F;
-  GPIO_PORTD_DEN_R = 0x0F;
-  GPIO_PORTC_DIR_R = 0xF0;
-  GPIO_PORTC_DEN_R = 0xF0;
+  GPIOPinTypeGPIOOutput(GPIO_PORTD_BASE, 0x0F);
+  GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, 0xF0);
   GPIOPadConfigSet(GPIO_PORTD_BASE, 0x0F, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
   GPIOPadConfigSet(GPIO_PORTC_BASE, 0xF0, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
 
 #ifdef DEBUG
   InitConsole();
 #endif
-  ssi_setup();
+  //ssi_setup();
 
-  // wiz_init();
+  //wiz_init();
 
+  lcd_init();
   GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
 }
 
@@ -134,8 +131,8 @@ void InitConsole(void)
   // This step is not necessary if your part does not support pin muxing.
   // TODO: change this to select the port/pin you are using.
   //
-  GPIOPinConfigure(GPIO_PA0_U0RX);
-  GPIOPinConfigure(GPIO_PA1_U0TX);
+  //GPIOPinConfigure(GPIO_PA0_U0RX);
+  //GPIOPinConfigure(GPIO_PA1_U0TX);
 
   //
   // Select the alternate (UART) function for these pins.
@@ -146,70 +143,80 @@ void InitConsole(void)
   //
   // Initialize the UART for console I/O.
   //
-  UARTStdioInit(0);
+  UARTStdioConfig(0, 115200, SysCtlClockGet());
 }
 #endif
 
-#ifdef UART1
-static void uart_putchar(uint8_t ch)
+/*
+ * Set the 8-bit data bus to x
+ */
+static void DataPins(uint8_t x)
 {
-    UARTCharPutNonBlocking(UART7_BASE, ch);
-    // UARTCharPut(UART7_BASE, ch);
+  GPIOPinWrite(GPIO_PORTD_BASE, 0x0F, x & 0x0F);
+  GPIOPinWrite(GPIO_PORTC_BASE, 0xF0, x & 0xF0);
 }
 
-static void write(char*str)
+static void lcd_cmd(uint8_t data)
 {
-  while (*str)
-    uart_putchar(*str++);
+  DataPins(data);
+  GPIOPinWrite(GPIO_PORTB_BASE, LCD_PIN_RS, 0);
+  GPIOPinWrite(GPIO_PORTB_BASE, LCD_PIN_ALL, LCD_PIN_EN);
+  SysCtlDelay(10);
+  GPIOPinWrite(GPIO_PORTB_BASE, LCD_PIN_EN, 0);
 }
 
-static void uart_hex8(uint8_t b)
+static void lcd_char(uint8_t data)
 {
-  unsigned char z;
-
-  z = ((b & 0xf0) >> 4) + '0';
-  if (z > '9')
-    z += 7;
-  uart_putchar(z);
-
-  z = (b & 0x0f) + '0';
-  if (z > '9')
-    z += 7;
-  uart_putchar(z);
+  DataPins(data);
+  GPIOPinWrite(GPIO_PORTB_BASE, LCD_PIN_RS, LCD_PIN_RS);
+  GPIOPinWrite(GPIO_PORTB_BASE, LCD_PIN_EN, LCD_PIN_EN);
+  SysCtlDelay(10);
+  GPIOPinWrite(GPIO_PORTB_BASE, LCD_PIN_EN, 0);
 }
 
-static void uart_hex16(uint16_t w)
+static void lcd_string(char *text)
 {
-  uart_hex8(w >> 8);
-  uart_hex8(w & 0xff);
+  while (*text)
+    lcd_char(*text++);
 }
-#endif
 
-unsigned long ADC_In(int channel)
+void lcd_init()
 {
-  unsigned long temp [8];
-  unsigned long average = 0;
-  char samples;
-  int i;
+  SysCtlDelay(62500*4);
+  lcd_cmd(0x30);         // command 0x30 = Wake up
+  SysCtlDelay(ms_delay);
+  lcd_cmd(0x30);         // command 0x30 = Wake up #2
+  SysCtlDelay(ms_delay);
+  lcd_cmd(0x30);         // command 0x30 = Wake up #3
+  SysCtlDelay(15 * ms_delay);
+  lcd_cmd(0x38);         // Function set: 8-bit/2-line
+  SysCtlDelay(ms_delay);
+  lcd_cmd(0x10);         // Set cursor
+  SysCtlDelay(ms_delay);
+  lcd_cmd(0x0c);         // Display ON; Cursor ON
+  SysCtlDelay(ms_delay);
+  lcd_cmd(0x06);         // Entry mode set
+  SysCtlDelay(ms_delay);
 
-  ADCSequenceDisable(ADC0_BASE, 1);
-  ADCSequenceConfigure(ADC0_BASE, 1, ADC_TRIGGER_PROCESSOR, 1);
-  ADCSequenceStepConfigure(ADC0_BASE, 1, 0, channel | ADC_CTL_END);
-  ADCSequenceEnable(ADC0_BASE, 1);
-  
+  lcd_string("Bardes");
+}
+
+unsigned long ADC_In(void)
+{
+  uint32_t samples[4];
+  uint32_t average = 0;
+
   ADCProcessorTrigger(ADC0_BASE, 1); //startsequence
-  do {
-     samples = ADCSequenceDataGet(ADC0_BASE, 1, temp);
-     } while(!samples);
-  
-  for(i=0; i<samples; i++)
-  {
-    average += temp[i];
-  }
-  return (average/(samples));
+  while(!ADCIntStatus(ADC0_BASE, 1, false))
+    ;
+  int n = ADCSequenceDataGet(ADC0_BASE, 1, samples);
+  ADCIntClear(ADC0_BASE, 1);
+  for (int i = 0; i < n; i++)
+    average += samples[i];
+  return average / n;
 }
 
-volatile int16_t fader_table[FADERS+BUMPS];
+volatile int16_t fader_table[FADERS+BUMPS+KEYPAD];
 
 #define SLOP 32
 
@@ -217,13 +224,17 @@ volatile struct E131_2009 packet;
 
 int main(void)
 {
+  uint32_t frame = 0;
+
   IntMasterDisable();
   setup();
+  usb_init();
   memcpy((void*)&packet, (void*)raw_acn_packet, sizeof(packet));
 
   IntMasterEnable();
+#ifdef DEBUG
   UARTprintf("Running\n");
-
+#endif
   for (;;)
   {
     /*
@@ -231,18 +242,15 @@ int main(void)
      */
     for(int8_t i = 0; i < FADERS; i++)
     {
-      // GPIOPinWrite(GPIO_PORTD_BASE, 0x0F, i & 0x0F);
-      // GPIOPinWrite(GPIO_PORTC_BASE, 0xF0, i & 0xF0);
+      if (i == 56) // bad fader
+	continue;
 
-      GPIO_PORTD_DATA_R = (GPIO_PORTD_DATA_R & 0xF0) | (i & 0x0F);
-      GPIO_PORTC_DATA_R = (GPIO_PORTC_DATA_R & 0x0F) | (i & 0xF0);
+      DataPins(i);
 
       // give the analog circuit time to settle
       SysCtlDelay(delay);
 
-      ADC_In(0); // read twice - toss one away
-      int16_t level = ADC_In(0);
-
+      int16_t level = ADC_In();
       int16_t diff =  fader_table[i] - level;
       if (diff > SLOP || diff < -SLOP)
       {
@@ -260,6 +268,26 @@ int main(void)
         else
 	  fader_table[i+FADERS] = 4096;
       }
+    }
+
+    /*
+     * Scan the control keypad one bit at a time.
+     */
+    uint8_t bit = ~1;
+    for (int i = 0, tableoffset = BUMPS+FADERS; i < 8; i++, bit=(bit<<1)|0x01)
+    {
+      DataPins(bit);
+      SysCtlDelay(delay);
+
+      int scan = (( 
+	  GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_4 | GPIO_PIN_5) |
+	  GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_6 | GPIO_PIN_7)
+	  )>>4) ^ 0x0f;
+
+      fader_table[tableoffset++] = (scan & 0x01) ? 4096 : 0;
+      fader_table[tableoffset++] = (scan & 0x02) ? 4096 : 0;
+      fader_table[tableoffset++] = (scan & 0x04) ? 4096 : 0;
+      fader_table[tableoffset++] = (scan & 0x08) ? 4096 : 0;
     }
 
     packet.universe[1] = UNIVERSE;
@@ -286,18 +314,23 @@ int main(void)
 	packet.dmx_data[i] = dmx;
       }
     }
-    if (changed || time == 0)
+    if (changed || frame == 0)
     {
       packet.seq_num[0]++;
 //      acn_transmit(&packet);
     }
-    // SysCtlSleep();
 
-    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, (time & 0x01) << 1);
-    time++;
-    if (time >= 44)
-      time=0;
+    /*
+     * Checkin on the USB subsystem
+     */
+    usb_tick();
+
+    /*
+     */
+    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, (frame & 0x01) << 1);
+    frame++;
+    if (frame >= 44)
+      frame=0;
+
   }
-
-  return 0;
 }

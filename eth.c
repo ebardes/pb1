@@ -14,18 +14,6 @@
    limitations under the License.
  */
 
-#include "inc/hw_memmap.h"
-#include "inc/hw_ssi.h"
-#include "inc/hw_types.h"
-#include "inc/hw_timer.h"
-#include "driverlib/ssi.h"
-#include "driverlib/gpio.h"
-#include "driverlib/pin_map.h"
-#include "driverlib/sysctl.h"
-#include "utils/uartstdio.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include "acn.h"
 #include "mac.h"
 #include "w5100.h"
 
@@ -38,7 +26,6 @@ const uint8_t raw_acn_packet[sizeof(struct E131_2009)] = {
 void ssi_setup(void)
 {
   SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI0);
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 
   GPIOPinConfigure(GPIO_PA2_SSI0CLK);
   GPIOPinConfigure(GPIO_PA3_SSI0FSS);
