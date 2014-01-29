@@ -10,6 +10,8 @@
 #include <winsock2.h>
 #include <winsock.h>
 
+#define SERIAL 1
+
 const uint8_t raw_acn_packet[sizeof(struct E131_2009)] = {
 #include "acnraw.h"
 };
@@ -20,6 +22,8 @@ WSADATA wsaData;
 SOCKET acnSock;
 boolean changed = FALSE;
 SOCKADDR_IN brdcastaddr;
+SOCKADDR_IN bindaddr;
+HANDLE m_hCommPort;
 
 #define FPS 44 // How many sACN frames per second
 
@@ -47,9 +51,9 @@ DWORD WINAPI senderThread(LPVOID lpdwThreadParam)
 
 DWORD WINAPI parserThread(LPVOID lpdwThreadParam)
 {
-  while (yyparse())
+  while (consoleparse())
   {
-    printf("yyparse()\n");
+    printf("consoleparse()\n");
   }
 }
 
@@ -69,8 +73,13 @@ int main(int argc, char **argv)
       return 1;
   }
 
-  char* quack_addr = "239.255.0.10";
+  char* quack_addr = "239.255.0.1";
   int quack_port = 5568;
+
+  bindaddr.sin_family = AF_INET;
+  //bindaddr.sin_addr.s_addr = inet_addr("192.168.1.22");
+  brdcastaddr.sin_addr.s_addr = INADDR_ANY;
+  bindaddr.sin_port = 0;
 
   brdcastaddr.sin_family = AF_INET;
   brdcastaddr.sin_addr.s_addr = inet_addr(quack_addr);
@@ -80,36 +89,88 @@ int main(int argc, char **argv)
   acnSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
   printf("Socket = %d\n", acnSock);
 
-  packet.universe[1] = 10;
+  packet.universe[1] = 1;
 
   char opt = 1;
   setsockopt(acnSock, SOL_SOCKET, SO_BROADCAST, (char*)&opt, sizeof(char));
 
+  bind(acnSock, (SOCKADDR*)&bindaddr, sizeof(bindaddr));
+
 #ifdef SERIAL
-  HANDLE m_hCommPort = CreateFile(szPortName, GENERIC_READ|GENERIC_WRITE,
+  m_hCommPort = CreateFile(szPortName,
+	GENERIC_READ|GENERIC_WRITE,
 	0,    //(share) 0:cannot share the COM port                        
 	0,    //security  (None)                
 	OPEN_EXISTING,// creation : open_existing
-	FILE_FLAG_OVERLAPPED,// we want overlapped operation
+	0,// we want overlapped operation
 	0// no templates file for COM port...
   );
+
+  DCB deviceControlBlock;
+
+  deviceControlBlock.DCBlength = sizeof(deviceControlBlock);
+  GetCommState(m_hCommPort, &deviceControlBlock);
+  deviceControlBlock.BaudRate = CBR_115200;
+  deviceControlBlock.StopBits = ONESTOPBIT;
+  deviceControlBlock.Parity   = NOPARITY;
+  deviceControlBlock.ByteSize = DATABITS_8;
+  deviceControlBlock.fRtsControl = 0;
+  SetCommState(m_hCommPort, &deviceControlBlock);
+
+  // set short timeouts on the comm port.
+  COMMTIMEOUTS timeouts;
+  memset(&timeouts, 0, sizeof(timeouts));
+  SetCommTimeouts(m_hCommPort, &timeouts);
 
   printf("Serial Port = %d\n", m_hCommPort);
 #endif
 
-  CreateThread(NULL, 0, parserThread, NULL, 0, NULL); 
-  // CreateThread(NULL, 0, senderThread, NULL, 0, NULL); 
-  senderThread(NULL);
+  //CreateThread(NULL, 0, parserThread, NULL, 0, NULL); 
+  CreateThread(NULL, 0, senderThread, NULL, 0, NULL); 
+  parserThread(NULL);
 }
 
-yyerror(char *msg)
+consoleerror(char *msg)
 {
   fprintf(stderr, "Msg: %s\n", msg);
 }
 
-int yylex()
+#if SERIAL
+char buffer[1];
+DWORD read = 0;
+DWORD buffptr = 0;
+#endif
+
+/*
+ * Fetch the next input charactor from the console.
+ */
+int consolelex()
 {
+#if SERIAL
+  OVERLAPPED ov;
+  int z;
+
+  if (buffptr <= read)
+  {
+    z = ReadFile(m_hCommPort, buffer, sizeof(buffer), &read, NULL);
+    // fwrite(buffer, read, 1, stdout);
+    buffptr = 0;
+  }
+
+  return buffer[buffptr++];
+
+#else
   return getc(stdin);
+#endif
+}
+
+int ma2lex()
+{
+  return 0;
+}
+
+int ma2error()
+{
 }
 
 /*
