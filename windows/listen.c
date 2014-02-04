@@ -57,14 +57,14 @@ DWORD WINAPI parserThread(LPVOID lpdwThreadParam)
   }
 }
 
-int main(int argc, char **argv)
+int run(char *szPortName)
 {
   printf("Hello, World:  size is %d\n", sizeof(raw_acn_packet));
 
   int iResult;
-  char *szPortName = argv[1];
 
   memcpy(&packet, raw_acn_packet, sizeof(packet));
+  memset(packet.dmx_data, 0, sizeof(packet.dmx_data));
 
   // Initialize Winsock
   iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -73,7 +73,8 @@ int main(int argc, char **argv)
       return 1;
   }
 
-  char* quack_addr = "239.255.0.1";
+  //char* quack_addr = "239.255.0.1";
+  char* quack_addr = "127.0.0.1";
   int quack_port = 5568;
 
   bindaddr.sin_family = AF_INET;
@@ -117,17 +118,11 @@ int main(int argc, char **argv)
   deviceControlBlock.fRtsControl = 0;
   SetCommState(m_hCommPort, &deviceControlBlock);
 
-  // set short timeouts on the comm port.
-  COMMTIMEOUTS timeouts;
-  memset(&timeouts, 0, sizeof(timeouts));
-  SetCommTimeouts(m_hCommPort, &timeouts);
-
   printf("Serial Port = %d\n", m_hCommPort);
 #endif
 
-  //CreateThread(NULL, 0, parserThread, NULL, 0, NULL); 
+  CreateThread(NULL, 0, parserThread, NULL, 0, NULL); 
   CreateThread(NULL, 0, senderThread, NULL, 0, NULL); 
-  parserThread(NULL);
 }
 
 consoleerror(char *msg)

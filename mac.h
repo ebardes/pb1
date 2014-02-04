@@ -11,6 +11,7 @@
 #include "driverlib/interrupt.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/rom.h"
+#include "driverlib/rom_map.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/systick.h"
 #include "driverlib/uart.h"
@@ -20,6 +21,9 @@
 
 #ifndef _MAC_H
 #define _MAC_H
+
+#define USB 0
+#define NET 0
 
 #include "acn.h"
 
@@ -33,6 +37,8 @@ extern void usb_init(void );
 extern void usb_tick(void );
 extern void acn_transmit(volatile struct E131_2009 *packet);
 extern void InitConsole(void);
+
+extern int ssi_xchg(int n);
 
 #define UNIVERSE 10
 #endif

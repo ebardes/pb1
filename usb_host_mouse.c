@@ -179,7 +179,9 @@ void USBHCDEvents(void *pvData)
 {
     const tEventInfo *pEventInfo = (tEventInfo *)pvData;
 
+#ifdef DEBUG
     UARTprintf("Event: class %d, event %d\n", USBHCDDevClass(pEventInfo->ui32Instance, 0), pEventInfo->ui32Event);
+#endif
 
     switch(pEventInfo->ui32Event)
     {
@@ -193,7 +195,9 @@ void USBHCDEvents(void *pvData)
             //
             if((USBHCDDevClass(pEventInfo->ui32Instance, 0) == USB_CLASS_HID) && (USBHCDDevProtocol(pEventInfo->ui32Instance, 0) == USB_HID_PROTOCOL_MOUSE))
             {
+#ifdef DEBUG
 		UARTprintf("Mouse Connected\n");
+#endif
                 //
                 // Proceed to the STATE_MOUSE_INIT state so that the main loop
                 // can finish initialized the mouse since USBHMouseInit()
@@ -203,11 +207,15 @@ void USBHCDEvents(void *pvData)
             }
 	    else if((USBHCDDevClass(pEventInfo->ui32Instance, 0) == USB_CLASS_HUB))
 	    {
+#ifdef DEBUG
 		UARTprintf("Hub Connected\n");
+#endif
 	    }
 	    else
 	    {
+#ifdef DEBUG
 		UARTprintf("Other Connected\n");
+#endif
 	    }
 
             break;
@@ -217,7 +225,9 @@ void USBHCDEvents(void *pvData)
         //
         case USB_EVENT_UNKNOWN_CONNECTED:
         {
+#ifdef DEBUG
 	    UARTprintf("Other Connected: class %d\n", USBHCDDevClass(pEventInfo->ui32Instance, 0));
+#endif
             //
             // An unknown device was detected.
             //
@@ -230,7 +240,9 @@ void USBHCDEvents(void *pvData)
         //
         case USB_EVENT_DISCONNECTED:
         {
+#ifdef DEBUG
 	    UARTprintf("Disconnected\n");
+#endif
             //
             // Change the state so that the main loop knows that the device is
             // no longer present.
@@ -259,7 +271,9 @@ void USBHCDEvents(void *pvData)
 
         default:
         {
+#ifdef DEBUG
 	    UARTprintf("Unknown event: %d\n", pEventInfo->ui32Event);
+#endif
             break;
         }
     }
@@ -288,7 +302,9 @@ void ModeCallback(uint32_t ui32Index, tUSBMode eMode)
 
 void HubCallback(tHubInstance *psMsInstance, uint32_t ui32Event, uint32_t ui32MsgParam, void *pvMsgData)
 {
+#ifdef DEBUG
     UARTprintf("Hub Callback: %d\n", ui32Event);
+#endif
     switch(ui32Event)
     {
     }
@@ -313,79 +329,35 @@ void HubCallback(tHubInstance *psMsInstance, uint32_t ui32Event, uint32_t ui32Ms
 //*****************************************************************************
 void MouseCallback(tUSBHMouse *psMsInstance, uint32_t ui32Event, uint32_t ui32MsgParam, void *pvMsgData)
 {
-    int32_t i32DoUpdate;
-
-    //
-    // Do an update unless there is no reason to.
-    //
-    i32DoUpdate = 1;
-
     switch(ui32Event)
     {
         //
         // Mouse button press detected.
         //
         case USBH_EVENT_HID_MS_PRESS:
-        {
-            //
-            // Save the new button that was pressed.
-            //
-            g_ui32Buttons |= ui32MsgParam;
+	    UARTprintf("md%d\n", ui32MsgParam);
             break;
-        }
 
         //
         // Mouse button release detected.
         //
         case USBH_EVENT_HID_MS_REL:
-        {
-            //
-            // Remove the button from the pressed state.
-            //
-            g_ui32Buttons &= ~ui32MsgParam;
-            break;
-        }
+	    UARTprintf("mu%d\n", ui32MsgParam);
+	    break;
 
         //
         // Mouse X movement detected.
         //
         case USBH_EVENT_HID_MS_X:
-        {
-            //
-            // Update the cursor X position.
-            //
-            g_i32DeltaX = (int8_t)ui32MsgParam;
+	    UARTprintf("mx%d\n", ui32MsgParam);
             break;
-        }
 
         //
         // Mouse Y movement detected.
         //
         case USBH_EVENT_HID_MS_Y:
-        {
-            //
-            // Update the cursor Y position.
-            //
-            g_i32DeltaY = (int8_t)ui32MsgParam;
+	    UARTprintf("my%d\n", ui32MsgParam);
             break;
-        }
-        default:
-        {
-            //
-            // No reason to update.
-            //
-            i32DoUpdate = 0;
-            break;
-        }
-    }
-
-    //
-    // Display the current mouse position and button state if there was an
-    // update.
-    //
-    if(i32DoUpdate)
-    {
-      UARTprintf("X=%d Y=%d Button=%x\n", g_i32DeltaX, g_i32DeltaY, g_ui32Buttons);
     }
 }
 

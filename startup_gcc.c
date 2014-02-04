@@ -22,7 +22,7 @@
 //
 //*****************************************************************************
 
-#include <stdint.h>
+#include "mac.h"
 #include "inc/hw_nvic.h"
 #include "inc/hw_types.h"
 
@@ -36,7 +36,9 @@ static void NmiSR(void);
 static void FaultISR(void);
 static void IntDefaultHandler(void);
 
+#if USB
 extern void USB0HostIntHandler(void);
+#endif
 
 //*****************************************************************************
 //
@@ -122,7 +124,11 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // CAN2
     0,                                      // Reserved
     IntDefaultHandler,                      // Hibernate
+#if USB
     USB0HostIntHandler,                      // USB0
+#else
+    IntDefaultHandler,                      // USB0
+#endif
     IntDefaultHandler,                      // PWM Generator 3
     IntDefaultHandler,                      // uDMA Software Transfer
     IntDefaultHandler,                      // uDMA Error
@@ -341,4 +347,8 @@ IntDefaultHandler(void)
     while(1)
     {
     }
+}
+
+void __error__(char*file, int line)
+{
 }
