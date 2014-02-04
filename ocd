@@ -4,4 +4,4 @@ OCD=$HOME/arm/sw/openocd-bin
 
 cd $OCD
 
-SU $PWD/openocd --file $PWD/LM4F120XL.cfg
+SU $PWD/openocd --file $PWD/ek-tm4c123gxl.cfg
