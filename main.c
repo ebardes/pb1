@@ -261,7 +261,7 @@ int main(void)
 	int8_t x = z % 3;
 	int8_t y = z / 3;
 	z = i % 8;
-	z = z + 9 * (x*3+y);
+	z = z + 8 * (x*3+y);
       }
       else
       {
