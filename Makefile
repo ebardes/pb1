@@ -15,7 +15,7 @@ OBJDUMP=${CompilerBin}/arm-none-eabi-objdump
 OBJSIZE=${CompilerBin}/arm-none-eabi-size
 
 
-# arm-none-eabi-ld -T blinky.ld --entry ResetISR --gc-sections -o gcc/blinky.axf gcc/blinky.o gcc/startup_gcc.o /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7e-m/softfp/libm.a /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7e-m/softfp/libc.a /home/eric/arm/gcc-arm-none-eabi-4_7-2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/armv7e-m/softfp/libgcc.a
+all: ma.bin map.xml
 
 OBJS=startup_gcc.o main.o eth.o mem.o usb_host_mouse.o uartstdio.o
 LIBS= \
@@ -25,7 +25,7 @@ LIBS= \
 ma.bin: ma.axf
 	${OBJCOPY} -O binary ${@:.bin=.axf} ${@}
 
-ma.axf: $(OBJS) Makefile ma.ld
+ma.axf: $(OBJS) ma.ld
 	$(LD) -T ma.ld --entry ResetISR --gc-sections $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 	$(OBJDUMP) -S -D $@ > ma.asm
 	$(OBJSIZE) $@
@@ -52,6 +52,10 @@ acnraw.h: genframe
 
 flash: ma.bin
 	SU lm4flash ma.bin
+
+map.xml: map.rb map.xslt keypadmap.txt
+	ruby map.rb keypadmap.txt | xsltproc -o map.xml map.xslt - 
+	cat map.xml
 
 gdb: ma.bin
 	${CompilerBin}/arm-none-eabi-gdb ma.axf
