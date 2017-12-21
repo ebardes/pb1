@@ -1,7 +1,7 @@
 #ifndef _ACN_H_
 #define _ACN_H_
 
-#define DMX_CHANNELS 256
+#define DMX_CHANNELS 512
 
 struct E131_2009
 {

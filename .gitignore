@@ -3,5 +3,7 @@
 *.d
 *.axf
 *.bin
+*.obj
+*.exe
 acnraw.h
 genframe

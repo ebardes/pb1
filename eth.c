@@ -19,37 +19,22 @@
 
 #define STATIC
 
+#define DEBUG
+
 const uint8_t raw_acn_packet[sizeof(struct E131_2009)] = {
 #include "acnraw.h"
 };
 
-void ssi_setup(void)
+int ssi_xchg(int n)
 {
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI0);
+  long unsigned v;
 
-  GPIOPinConfigure(GPIO_PA2_SSI0CLK);
-  GPIOPinConfigure(GPIO_PA3_SSI0FSS);
-  GPIOPinConfigure(GPIO_PA4_SSI0RX);
-  GPIOPinConfigure(GPIO_PA5_SSI0TX);
-  GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_5 | GPIO_PIN_4 | GPIO_PIN_3 | GPIO_PIN_2);
-
-  SSIConfigSetExpClk(SSI0_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, 2500000, 8);
-  SSIEnable(SSI0_BASE);
-
-  // Read any residual data from the SSI port.
-  long unsigned dummy;
-  while(SSIDataGetNonBlocking(SSI0_BASE, &dummy))
-    ; // empty
-
-  SSIEnable(SSI0_BASE);
-}
-
-static int ssi_xchg(int n)
-{
   SSIDataPut(SSI0_BASE, n);
   while(SSIBusy(SSI0_BASE));
-  long unsigned v;
-  SSIDataGet(SSI0_BASE, &v);
+
+  //SSIDataGet(SSI0_BASE, &v);
+  while(SSIDataGetNonBlocking(SSI0_BASE, &v))
+    ; // empty
   v &= 0x00FF;
   return v;
 }
@@ -62,7 +47,7 @@ void wiz_write(long address, long byte)
   ssi_xchg(byte);
 }
 
-void wiz_write16(long address, long word)
+STATIC void wiz_write16(long address, long word)
 {
   wiz_write(address, (word >> 8) & 0xFF);
   wiz_write(address+1, word & 0xFF);
@@ -78,10 +63,6 @@ STATIC void wiz_write_buffer(long address, const unsigned char *buffer, int leng
 
 static int wiz_read(long address)
 {
-  long unsigned dummy;
-  while(SSIDataGetNonBlocking(SSI0_BASE, &dummy))
-    ; // empty
-
   ssi_xchg(0x0F);
   ssi_xchg((address >> 8) & 0xFF);
   ssi_xchg(address & 0xFF);
@@ -173,10 +154,10 @@ void wiz_init()
 #endif
 
   wiz_setip(ip, mask, gate, mac);
-  wiz_open(0, dest, 5568);
 }
 
 void acn_transmit(volatile struct E131_2009 *packet)
 {
+  wiz_open(0, dest, 5568);
   wiz_send(0, (unsigned char*) packet, sizeof(*packet));
 }
