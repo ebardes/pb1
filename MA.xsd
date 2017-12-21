@@ -1,0 +1,1455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.malighting.de/grandma2/xml/MA" targetNamespace="http://schemas.malighting.de/grandma2/xml/MA" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="MA" type="tns:MA" />
+	<xs:complexType name="MA">
+		<xs:sequence>
+			<xs:element name="Info" type="tns:MaXmlInfo" minOccurs="0" maxOccurs="1" />
+			<xs:choice>
+				<xs:element name="Agenda" minOccurs="0" maxOccurs="unbounded" type="tns:Agenda" />
+				<xs:element name="Agendas" minOccurs="0" maxOccurs="unbounded" type="tns:Agendas" />
+				<xs:element name="AnalogRemotes" minOccurs="0" maxOccurs="unbounded" type="tns:AnalogRemotes" />
+				<xs:element name="Arrangements" minOccurs="0" maxOccurs="unbounded" type="tns:Arrangements" />
+				<xs:element name="Artnet" minOccurs="0" maxOccurs="unbounded" type="tns:Artnet" />
+				<xs:element name="ArtnetData" minOccurs="0" maxOccurs="unbounded" type="tns:ArtnetData" />
+				<xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded" type="tns:Attribute" />
+				<xs:element name="Bitmap" minOccurs="0" maxOccurs="unbounded" type="tns:Bitmap" />
+				<xs:element name="Bitmaps" minOccurs="0" maxOccurs="unbounded" type="tns:Bitmaps" />
+				<xs:element name="BitmapsPool" minOccurs="0" maxOccurs="unbounded" type="tns:BitmapsPool" />
+				<xs:element name="BmpMod" minOccurs="0" maxOccurs="unbounded" type="tns:BmpMod" />
+				<xs:element name="Camera" minOccurs="0" maxOccurs="unbounded" type="tns:Camera" />
+				<xs:element name="Cameras" minOccurs="0" maxOccurs="unbounded" type="tns:Cameras" />
+				<xs:element name="Channel" minOccurs="0" maxOccurs="unbounded" type="tns:Channel" />
+				<xs:element name="ChannelFader" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelFader" />
+				<xs:element name="ChannelFunction" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelFunction" />
+				<xs:element name="ChannelSet" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelSet" />
+				<xs:element name="ChannelType" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelType" />
+				<xs:element name="Circle" minOccurs="0" maxOccurs="unbounded" type="tns:Circle" />
+				<xs:element name="ColSettings" minOccurs="0" maxOccurs="unbounded" type="tns:ColSettings" />
+				<xs:element name="Color" minOccurs="0" maxOccurs="unbounded" type="tns:Color" />
+				<xs:element name="ColorDialog" minOccurs="0" maxOccurs="unbounded" type="tns:ColorDialog" />
+				<xs:element name="ColorPool" minOccurs="0" maxOccurs="unbounded" type="tns:ColorPool" />
+				<xs:element name="Colors" minOccurs="0" maxOccurs="unbounded" type="tns:Colors" />
+				<xs:element name="Console" minOccurs="0" maxOccurs="unbounded" type="tns:Console" />
+				<xs:element name="Cue" minOccurs="0" maxOccurs="unbounded" type="tns:Cue" />
+				<xs:element name="CuePart" minOccurs="0" maxOccurs="unbounded" type="tns:CuePart" />
+				<xs:element name="CuelistDefaults" minOccurs="0" maxOccurs="unbounded" type="tns:CuelistDefaults" />
+				<xs:element name="DMX" minOccurs="0" maxOccurs="unbounded" type="tns:DMX" />
+				<xs:element name="DMXRemotes" minOccurs="0" maxOccurs="unbounded" type="tns:DMXRemotes" />
+				<xs:element name="DMX_Profile" minOccurs="0" maxOccurs="unbounded" type="tns:DMX_Profile" />
+				<xs:element name="DMX_Profile_Point" minOccurs="0" maxOccurs="unbounded" type="tns:DMX_Profile_Point" />
+				<xs:element name="DMX_Profiles" minOccurs="0" maxOccurs="unbounded" type="tns:DMX_Profiles" />
+				<xs:element name="DMX_Protocols" minOccurs="0" maxOccurs="unbounded" type="tns:DMX_Protocols" />
+				<xs:element name="DialogSettings" minOccurs="0" maxOccurs="unbounded" type="tns:DialogSettings" />
+				<xs:element name="Dictionary" minOccurs="0" maxOccurs="unbounded" type="tns:Dictionary" />
+				<xs:element name="Display" minOccurs="0" maxOccurs="unbounded" type="tns:Display" />
+				<xs:element name="ETCNet2" minOccurs="0" maxOccurs="unbounded" type="tns:ETCNet2" />
+				<xs:element name="Effect" minOccurs="0" maxOccurs="unbounded" type="tns:Effect" />
+				<xs:element name="EffectDefaults" minOccurs="0" maxOccurs="unbounded" type="tns:EffectDefaults" />
+				<xs:element name="Effectline" minOccurs="0" maxOccurs="unbounded" type="tns:Effectline" />
+				<xs:element name="Effects" minOccurs="0" maxOccurs="unbounded" type="tns:Effects" />
+				<xs:element name="EffectsPool" minOccurs="0" maxOccurs="unbounded" type="tns:EffectsPool" />
+				<xs:element name="EncoderResolution" minOccurs="0" maxOccurs="unbounded" type="tns:EncoderResolution" />
+				<xs:element name="EnviromentVariables" minOccurs="0" maxOccurs="unbounded" type="tns:EnviromentVariables" />
+				<xs:element name="Event" minOccurs="0" maxOccurs="unbounded" type="tns:Event" />
+				<xs:element name="Exec" minOccurs="0" maxOccurs="unbounded" type="tns:Exec" />
+				<xs:element name="ExecDefaults" minOccurs="0" maxOccurs="unbounded" type="tns:ExecDefaults" />
+				<xs:element name="ExecFix" minOccurs="0" maxOccurs="unbounded" type="tns:ExecFix" />
+				<xs:element name="ExecutorPages" minOccurs="0" maxOccurs="unbounded" type="tns:ExecutorPages" />
+				<xs:element name="FadePath" minOccurs="0" maxOccurs="unbounded" type="tns:FadePath" />
+				<xs:element name="FadePathPool" minOccurs="0" maxOccurs="unbounded" type="tns:FadePathPool" />
+				<xs:element name="FadePaths" minOccurs="0" maxOccurs="unbounded" type="tns:FadePaths" />
+				<xs:element name="FadeUnits" minOccurs="0" maxOccurs="unbounded" type="tns:FadeUnits" />
+				<xs:element name="Feature" minOccurs="0" maxOccurs="unbounded" type="tns:Feature" />
+				<xs:element name="Fixture" minOccurs="0" maxOccurs="unbounded" type="tns:Fixture" />
+				<xs:element name="Fixture3D" minOccurs="0" maxOccurs="unbounded" type="tns:Fixture3D" />
+				<xs:element name="FixtureType" minOccurs="0" maxOccurs="unbounded" type="tns:FixtureType" />
+				<xs:element name="FixtureTypes" minOccurs="0" maxOccurs="unbounded" type="tns:FixtureTypes" />
+				<xs:element name="Form" minOccurs="0" maxOccurs="unbounded" type="tns:Form" />
+				<xs:element name="Forms" minOccurs="0" maxOccurs="unbounded" type="tns:Forms" />
+				<xs:element name="GeneralDefaults" minOccurs="0" maxOccurs="unbounded" type="tns:GeneralDefaults" />
+				<xs:element name="Global" minOccurs="0" maxOccurs="unbounded" type="tns:Global" />
+				<xs:element name="Group" minOccurs="0" maxOccurs="unbounded" type="tns:Group" />
+				<xs:element name="GroupPool" minOccurs="0" maxOccurs="unbounded" type="tns:GroupPool" />
+				<xs:element name="Groups" minOccurs="0" maxOccurs="unbounded" type="tns:Groups" />
+				<xs:element name="HelpSettings" minOccurs="0" maxOccurs="unbounded" type="tns:HelpSettings" />
+				<xs:element name="Helper" minOccurs="0" maxOccurs="unbounded" type="tns:Helper" />
+				<xs:element name="Highlight" minOccurs="0" maxOccurs="unbounded" type="tns:Highlight" />
+				<xs:element name="HwActivateSettings" minOccurs="0" maxOccurs="unbounded" type="tns:HwActivateSettings" />
+				<xs:element name="Instance" minOccurs="0" maxOccurs="unbounded" type="tns:Instance" />
+				<xs:element name="Instances" minOccurs="0" maxOccurs="unbounded" type="tns:Instances" />
+				<xs:element name="Item3D" minOccurs="0" maxOccurs="unbounded" type="tns:Item3D" />
+				<xs:element name="Items3D" minOccurs="0" maxOccurs="unbounded" type="tns:Items3D" />
+				<xs:element name="Kinet1" minOccurs="0" maxOccurs="unbounded" type="tns:Kinet1" />
+				<xs:element name="Layer" minOccurs="0" maxOccurs="unbounded" type="tns:Layer" />
+				<xs:element name="LayerFilter" minOccurs="0" maxOccurs="unbounded" type="tns:LayerFilter" />
+				<xs:element name="Layers" minOccurs="0" maxOccurs="unbounded" type="tns:Layers" />
+				<xs:element name="LayoutData" minOccurs="0" maxOccurs="unbounded" type="tns:LayoutData" />
+				<xs:element name="LayoutPool" minOccurs="0" maxOccurs="unbounded" type="tns:LayoutPool" />
+				<xs:element name="LayoutViewSettings" minOccurs="0" maxOccurs="unbounded" type="tns:LayoutViewSettings" />
+				<xs:element name="Local" minOccurs="0" maxOccurs="unbounded" type="tns:Local" />
+				<xs:element name="Macro" minOccurs="0" maxOccurs="unbounded" type="tns:Macro" />
+				<xs:element name="MacroPool" minOccurs="0" maxOccurs="unbounded" type="tns:MacroPool" />
+				<xs:element name="Macroline" minOccurs="0" maxOccurs="unbounded" type="tns:Macroline" />
+				<xs:element name="Macros" minOccurs="0" maxOccurs="unbounded" type="tns:Macros" />
+				<xs:element name="Masters" minOccurs="0" maxOccurs="unbounded" type="tns:Masters" />
+				<xs:element name="Matrix" minOccurs="0" maxOccurs="unbounded" type="tns:Matrix" />
+				<xs:element name="Matrix2D" minOccurs="0" maxOccurs="unbounded" type="tns:Matrix2D" />
+				<xs:element name="MatrixPool" minOccurs="0" maxOccurs="unbounded" type="tns:MatrixPool" />
+				<xs:element name="MidiConfig" minOccurs="0" maxOccurs="unbounded" type="tns:MidiConfig" />
+				<xs:element name="MidiRemotes" minOccurs="0" maxOccurs="unbounded" type="tns:MidiRemotes" />
+				<xs:element name="Model3D" minOccurs="0" maxOccurs="unbounded" type="tns:Model3D" />
+				<xs:element name="Models3D" minOccurs="0" maxOccurs="unbounded" type="tns:Models3D" />
+				<xs:element name="Module" minOccurs="0" maxOccurs="unbounded" type="tns:Module" />
+				<xs:element name="Modules" minOccurs="0" maxOccurs="unbounded" type="tns:Modules" />
+				<xs:element name="Move" minOccurs="0" maxOccurs="unbounded" type="tns:Move" />
+				<xs:element name="NDP" minOccurs="0" maxOccurs="unbounded" type="tns:NDP" />
+				<xs:element name="NDP_BUS" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_BUS" />
+				<xs:element name="NDP_CRATE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_CRATE" />
+				<xs:element name="NDP_CUE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_CUE" />
+				<xs:element name="NDP_CUEPOOL" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_CUEPOOL" />
+				<xs:element name="NDP_DIMMER" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_DIMMER" />
+				<xs:element name="NDP_LOG" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_LOG" />
+				<xs:element name="NDP_MODULE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_MODULE" />
+				<xs:element name="NDP_PROFILE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_PROFILE" />
+				<xs:element name="NDP_PROFILES" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_PROFILES" />
+				<xs:element name="NDP_Root" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_Root" />
+				<xs:element name="NDP_STATUS" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_STATUS" />
+				<xs:element name="NDP_TESTTAB" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_TESTTAB" />
+				<xs:element name="NPU" minOccurs="0" maxOccurs="unbounded" type="tns:NPU" />
+				<xs:element name="NetConfig" minOccurs="0" maxOccurs="unbounded" type="tns:NetConfig" />
+				<xs:element name="Objects3D" minOccurs="0" maxOccurs="unbounded" type="tns:Objects3D" />
+				<xs:element name="Oops" minOccurs="0" maxOccurs="unbounded" type="tns:Oops" />
+				<xs:element name="Output" minOccurs="0" maxOccurs="unbounded" type="tns:Output" />
+				<xs:element name="Page" minOccurs="0" maxOccurs="unbounded" type="tns:Page" />
+				<xs:element name="PagePool" minOccurs="0" maxOccurs="unbounded" type="tns:PagePool" />
+				<xs:element name="Pathport" minOccurs="0" maxOccurs="unbounded" type="tns:Pathport" />
+				<xs:element name="PixelMapperArea" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperArea" />
+				<xs:element name="PixelMapperAreaCollect" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperAreaCollect" />
+				<xs:element name="PixelMapperContainer" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperContainer" />
+				<xs:element name="PixelMapperOutput" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperOutput" />
+				<xs:element name="PixelMapperPanel" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperPanel" />
+				<xs:element name="PixelMapperPanelType" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperPanelType" />
+				<xs:element name="PixelMapperPanelTypeCollect" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperPanelTypeCollect" />
+				<xs:element name="Preset" minOccurs="0" maxOccurs="unbounded" type="tns:Preset" />
+				<xs:element name="PresetColors" minOccurs="0" maxOccurs="unbounded" type="tns:PresetColors" />
+				<xs:element name="PresetDefaults" minOccurs="0" maxOccurs="unbounded" type="tns:PresetDefaults" />
+				<xs:element name="PresetPool" minOccurs="0" maxOccurs="unbounded" type="tns:PresetPool" />
+				<xs:element name="PresetPools" minOccurs="0" maxOccurs="unbounded" type="tns:PresetPools" />
+				<xs:element name="PresetType" minOccurs="0" maxOccurs="unbounded" type="tns:PresetType" />
+				<xs:element name="PresetTypes" minOccurs="0" maxOccurs="unbounded" type="tns:PresetTypes" />
+				<xs:element name="Presets" minOccurs="0" maxOccurs="unbounded" type="tns:Presets" />
+				<xs:element name="Programmer" minOccurs="0" maxOccurs="unbounded" type="tns:Programmer" />
+				<xs:element name="RDM_Fixture" minOccurs="0" maxOccurs="unbounded" type="tns:RDM_Fixture" />
+				<xs:element name="RDM_Universe" minOccurs="0" maxOccurs="unbounded" type="tns:RDM_Universe" />
+				<xs:element name="RDM_Universes" minOccurs="0" maxOccurs="unbounded" type="tns:RDM_Universes" />
+				<xs:element name="RemoteAnalog" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteAnalog" />
+				<xs:element name="RemoteDMX" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteDMX" />
+				<xs:element name="RemoteMidi" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteMidi" />
+				<xs:element name="RemoteSettings" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteSettings" />
+				<xs:element name="RemoteTypes" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteTypes" />
+				<xs:element name="RenderingOptions" minOccurs="0" maxOccurs="unbounded" type="tns:RenderingOptions" />
+				<xs:element name="Resource3D" minOccurs="0" maxOccurs="unbounded" type="tns:Resource3D" />
+				<xs:element name="Root" minOccurs="0" maxOccurs="unbounded" type="tns:Root" />
+				<xs:element name="RootEnd" minOccurs="0" maxOccurs="unbounded" type="tns:RootEnd" />
+				<xs:element name="RootStart" minOccurs="0" maxOccurs="unbounded" type="tns:RootStart" />
+				<xs:element name="Selection" minOccurs="0" maxOccurs="unbounded" type="tns:Selection" />
+				<xs:element name="Sequ" minOccurs="0" maxOccurs="unbounded" type="tns:Sequ" />
+				<xs:element name="SequencePool" minOccurs="0" maxOccurs="unbounded" type="tns:SequencePool" />
+				<xs:element name="Sequences" minOccurs="0" maxOccurs="unbounded" type="tns:Sequences" />
+				<xs:element name="Settings" minOccurs="0" maxOccurs="unbounded" type="tns:Settings" />
+				<xs:element name="Setup" minOccurs="0" maxOccurs="unbounded" type="tns:Setup" />
+				<xs:element name="SheetSettings" minOccurs="0" maxOccurs="unbounded" type="tns:SheetSettings" />
+				<xs:element name="Show" minOccurs="0" maxOccurs="unbounded" type="tns:Show" />
+				<xs:element name="Shownet" minOccurs="0" maxOccurs="unbounded" type="tns:Shownet" />
+				<xs:element name="Slot" minOccurs="0" maxOccurs="unbounded" type="tns:Slot" />
+				<xs:element name="Song" minOccurs="0" maxOccurs="unbounded" type="tns:Song" />
+				<xs:element name="Songs" minOccurs="0" maxOccurs="unbounded" type="tns:Songs" />
+				<xs:element name="Sound" minOccurs="0" maxOccurs="unbounded" type="tns:Sound" />
+				<xs:element name="Soundchannel" minOccurs="0" maxOccurs="unbounded" type="tns:Soundchannel" />
+				<xs:element name="SpecialMaster" minOccurs="0" maxOccurs="unbounded" type="tns:SpecialMaster" />
+				<xs:element name="StageViewSettings" minOccurs="0" maxOccurs="unbounded" type="tns:StageViewSettings" />
+				<xs:element name="Stations" minOccurs="0" maxOccurs="unbounded" type="tns:Stations" />
+				<xs:element name="StoreDefaults" minOccurs="0" maxOccurs="unbounded" type="tns:StoreDefaults" />
+				<xs:element name="SubAttribute" minOccurs="0" maxOccurs="unbounded" type="tns:SubAttribute" />
+				<xs:element name="SubFixture" minOccurs="0" maxOccurs="unbounded" type="tns:SubFixture" />
+				<xs:element name="SubFixture3D_s1" minOccurs="0" maxOccurs="unbounded" type="tns:SubFixture3D_s1" />
+				<xs:element name="SubFixture3D_s2" minOccurs="0" maxOccurs="unbounded" type="tns:SubFixture3D_s2" />
+				<xs:element name="SubTrack" minOccurs="0" maxOccurs="unbounded" type="tns:SubTrack" />
+				<xs:element name="Temp" minOccurs="0" maxOccurs="unbounded" type="tns:Temp" />
+				<xs:element name="Texture" minOccurs="0" maxOccurs="unbounded" type="tns:Texture" />
+				<xs:element name="TimeConfig" minOccurs="0" maxOccurs="unbounded" type="tns:TimeConfig" />
+				<xs:element name="Timecode" minOccurs="0" maxOccurs="unbounded" type="tns:Timecode" />
+				<xs:element name="TimecodeDialogSettings" minOccurs="0" maxOccurs="unbounded" type="tns:TimecodeDialogSettings" />
+				<xs:element name="Timecodes" minOccurs="0" maxOccurs="unbounded" type="tns:Timecodes" />
+				<xs:element name="Tools" minOccurs="0" maxOccurs="unbounded" type="tns:Tools" />
+				<xs:element name="Track" minOccurs="0" maxOccurs="unbounded" type="tns:Track" />
+				<xs:element name="Universe" minOccurs="0" maxOccurs="unbounded" type="tns:Universe" />
+				<xs:element name="Universes" minOccurs="0" maxOccurs="unbounded" type="tns:Universes" />
+				<xs:element name="User" minOccurs="0" maxOccurs="unbounded" type="tns:User" />
+				<xs:element name="UserProfile" minOccurs="0" maxOccurs="unbounded" type="tns:UserProfile" />
+				<xs:element name="UserProfiles" minOccurs="0" maxOccurs="unbounded" type="tns:UserProfiles" />
+				<xs:element name="UserSettings" minOccurs="0" maxOccurs="unbounded" type="tns:UserSettings" />
+				<xs:element name="UserStation" minOccurs="0" maxOccurs="unbounded" type="tns:UserStation" />
+				<xs:element name="UserStationCollect" minOccurs="0" maxOccurs="unbounded" type="tns:UserStationCollect" />
+				<xs:element name="Users" minOccurs="0" maxOccurs="unbounded" type="tns:Users" />
+				<xs:element name="Video" minOccurs="0" maxOccurs="unbounded" type="tns:Video" />
+				<xs:element name="VideoData" minOccurs="0" maxOccurs="unbounded" type="tns:VideoData" />
+				<xs:element name="View" minOccurs="0" maxOccurs="unbounded" type="tns:View" />
+				<xs:element name="ViewButton" minOccurs="0" maxOccurs="unbounded" type="tns:ViewButton" />
+				<xs:element name="ViewButtonPage" minOccurs="0" maxOccurs="unbounded" type="tns:ViewButtonPage" />
+				<xs:element name="ViewButtons" minOccurs="0" maxOccurs="unbounded" type="tns:ViewButtons" />
+				<xs:element name="Views" minOccurs="0" maxOccurs="unbounded" type="tns:Views" />
+				<xs:element name="Visualizer" minOccurs="0" maxOccurs="unbounded" type="tns:Visualizer" />
+				<xs:element name="Wheel" minOccurs="0" maxOccurs="unbounded" type="tns:Wheel" />
+				<xs:element name="Wheels" minOccurs="0" maxOccurs="unbounded" type="tns:Wheels" />
+				<xs:element name="Widget" minOccurs="0" maxOccurs="unbounded" type="tns:Widget" />
+				<xs:element name="World" minOccurs="0" maxOccurs="unbounded" type="tns:World" />
+				<xs:element name="Worlds" minOccurs="0" maxOccurs="unbounded" type="tns:Worlds" />
+				<xs:element name="_2Port" minOccurs="0" maxOccurs="unbounded" type="tns:_2Port" />
+				<xs:element name="sACN" minOccurs="0" maxOccurs="unbounded" type="tns:sACN" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="major_vers" type="xs:int" use="required" />
+		<xs:attribute name="minor_vers" type="xs:int" use="required" />
+		<xs:attribute name="stream_vers" type="xs:int" use="required" />
+	</xs:complexType>
+	<xs:complexType name="DMX_Profiles">
+		<xs:sequence>
+			<xs:element name="DMX_Profile" minOccurs="0" maxOccurs="unbounded" type="tns:DMX_Profile" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="DMX_Profile">
+		<xs:sequence>
+			<xs:element name="DMX_Profile_Point" minOccurs="0" maxOccurs="unbounded" type="tns:DMX_Profile_Point" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="display_spec_index" type="xs:int" use="required" />
+	</xs:complexType>
+	<xs:complexType name="DMX_Profile_Point">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="x" type="xs:float" use="required" />
+		<xs:attribute name="y" type="xs:float" use="required" />
+		<xs:attribute name="mode" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="linear" />
+					<xs:enumeration value="spline" />
+					<xs:enumeration value="spline_break_start" />
+					<xs:enumeration value="spline_break_end" />
+					<xs:enumeration value="step_start" />
+					<xs:enumeration value="step_end" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Effectline">
+		<xs:sequence>
+			<xs:element name="Fixtures" type="tns:Fixtures" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="attribute" type="xs:string" use="required" />
+		<xs:attribute name="blocks" type="xs:int" use="required" />
+		<xs:attribute name="groups" type="xs:int" use="required" />
+		<xs:attribute name="wings" type="xs:int" use="required" />
+		<xs:attribute name="flags" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="rate" type="xs:float" use="required" />
+		<xs:attribute name="v1_a" type="xs:float" use="required" />
+		<xs:attribute name="v1_b" type="xs:float" use="required" />
+		<xs:attribute name="v1_p" type="xs:string" use="required" />
+		<xs:attribute name="v2_a" type="xs:float" use="required" />
+		<xs:attribute name="v2_b" type="xs:float" use="required" />
+		<xs:attribute name="v2_p" type="xs:string" use="required" />
+		<xs:attribute name="phase_a" type="xs:float" use="required" />
+		<xs:attribute name="phase_b" type="xs:float" use="required" />
+		<xs:attribute name="width_a" type="xs:float" use="required" />
+		<xs:attribute name="width_b" type="xs:float" use="required" />
+		<xs:attribute name="pwm_attack" type="xs:int" use="required" />
+		<xs:attribute name="pwm_decay" type="xs:int" use="required" />
+	</xs:complexType>
+	<xs:complexType name="SubFixture">
+		<xs:sequence>
+			<xs:element name="Patch" type="tns:Patch" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Channel" minOccurs="0" maxOccurs="unbounded" type="tns:Channel" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="pan_invert" type="xs:boolean" default="false" />
+		<xs:attribute name="tilt_invert" type="xs:boolean" default="false" />
+		<xs:attribute name="swapPanTilt" type="xs:boolean" default="false" />
+		<xs:attribute name="color" type="xs:hexBinary" default="ffffff00" />
+	</xs:complexType>
+	<xs:complexType name="Event">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NetConfig">
+		<xs:sequence>
+			<xs:element name="Stations" minOccurs="0" maxOccurs="unbounded" type="tns:Stations" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Stations">
+		<xs:sequence>
+			<xs:element name="NDP" minOccurs="0" maxOccurs="unbounded" type="tns:NDP" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Console">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NPU">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Visualizer">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Video">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="_2Port">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Selection">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Sequ">
+		<xs:sequence>
+			<xs:element name="Cue" minOccurs="0" maxOccurs="unbounded" type="tns:Cue" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="tracking" type="xs:boolean" default="false" />
+		<xs:attribute name="release_on_firststep" type="xs:boolean" default="false" />
+	</xs:complexType>
+	<xs:complexType name="Exec">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Channel">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Layers">
+		<xs:sequence>
+			<xs:element name="Layer" minOccurs="0" maxOccurs="unbounded" type="tns:Layer" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Layer">
+		<xs:sequence>
+			<xs:element name="Fixture" minOccurs="0" maxOccurs="unbounded" type="tns:Fixture" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Programmer">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Root">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RootStart">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RootEnd">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Macroline">
+		<xs:sequence>
+			<xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="delay" type="xs:float" default="0.000" />
+	</xs:complexType>
+	<xs:complexType name="ExecutorPages">
+		<xs:sequence>
+			<xs:element name="PagePool" minOccurs="0" maxOccurs="unbounded" type="tns:PagePool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PagePool">
+		<xs:sequence>
+			<xs:element name="Page" minOccurs="0" maxOccurs="unbounded" type="tns:Page" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Cue">
+		<xs:sequence>
+			<xs:element name="Number" type="tns:CueNumber" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Trigger" type="tns:CueTrigger" minOccurs="0" maxOccurs="1" />
+			<xs:element name="LoopDestination" type="tns:CueNumber" minOccurs="0" maxOccurs="1" />
+			<xs:element name="CueDatas" minOccurs="0" maxOccurs="1" type="tns:ArrayOfCueData" />
+			<xs:element name="CuePart" minOccurs="0" maxOccurs="unbounded" type="tns:CuePart" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="cue_mode" default="Normal">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Normal" />
+					<xs:enumeration value="Assert" />
+					<xs:enumeration value="XAssert" />
+					<xs:enumeration value="Break" />
+					<xs:enumeration value="XBreak" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="loop_count" type="xs:int" default="-1" />
+		<xs:attribute name="loop_time" type="xs:float" default="-1.000" />
+		<xs:attribute name="learned_time" type="xs:float" default="-1.000" />
+	</xs:complexType>
+	<xs:complexType name="ArrayOfCueData">
+		<xs:sequence>
+			<xs:element name="CueData" type="tns:CueData" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CuePart">
+		<xs:sequence>
+			<xs:element name="Profile" type="tns:AddressLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="MibCue" type="tns:CueNumber" minOccurs="0" maxOccurs="1" />
+			<xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Info" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="cmd_delay" type="xs:float" default="0.000" />
+		<xs:attribute name="basic_fade" type="xs:float" default="0.000" />
+		<xs:attribute name="basic_downfade" type="xs:float" default="-1.000" />
+		<xs:attribute name="basic_delay" type="xs:float" default="0.000" />
+		<xs:attribute name="basic_downdelay" type="xs:float" default="-1.000" />
+		<xs:attribute name="basic_snap_percent" type="xs:float" default="0.000" />
+		<xs:attribute name="force_effect_time" type="xs:boolean" default="false" />
+		<xs:attribute name="mib_sign" type="xs:int" default="0" />
+		<xs:attribute name="basic_snapdelay" type="xs:float" default="0.000" />
+		<xs:attribute name="basic_downfade_value" type="xs:float" default="0.000" />
+		<xs:attribute name="basic_downdelay_value" type="xs:float" default="0.000" />
+		<xs:attribute name="delay" type="xs:float" default="0.000" />
+	</xs:complexType>
+	<xs:complexType name="CueData">
+		<xs:sequence>
+			<xs:element name="Channel" type="tns:ChannelLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Value" type="xs:float" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Fade" type="xs:float" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Delay" type="xs:float" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Preset" type="tns:AddressLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Effect" type="tns:AddressLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectFlags" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectRate" type="xs:double" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectValue1" type="xs:float" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectValue1Preset" type="tns:AddressLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectValue2" type="xs:float" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectValue2Preset" type="tns:AddressLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectPhase" type="xs:double" minOccurs="0" maxOccurs="1" />
+			<xs:element name="EffectWidth" type="xs:double" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="multipart_index" type="xs:int" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Fixture">
+		<xs:sequence>
+			<xs:element name="FixtureType" type="tns:AddressLink" minOccurs="0" maxOccurs="1" />
+			<xs:element name="SubFixture" minOccurs="0" maxOccurs="unbounded" type="tns:SubFixture" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="fixture_id" type="xs:int" default="0" />
+		<xs:attribute name="channel_id" type="xs:int" default="0" />
+		<xs:attribute name="point_of_view" type="xs:float" default="0.000" />
+	</xs:complexType>
+	<xs:complexType name="RenderingOptions">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Objects3D">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Resource3D">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Texture">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Models3D">
+		<xs:sequence>
+			<xs:element name="Model3D" minOccurs="0" maxOccurs="unbounded" type="tns:Model3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Model3D">
+		<xs:sequence>
+			<xs:element name="Model3D" minOccurs="0" maxOccurs="unbounded" type="tns:Model3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Items3D">
+		<xs:sequence>
+			<xs:element name="Item3D" minOccurs="0" maxOccurs="unbounded" type="tns:Item3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Item3D">
+		<xs:sequence>
+			<xs:element name="Item3D" minOccurs="0" maxOccurs="unbounded" type="tns:Item3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Fixture3D">
+		<xs:sequence>
+			<xs:element name="Item3D" minOccurs="0" maxOccurs="unbounded" type="tns:Item3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SubFixture3D_s1">
+		<xs:sequence>
+			<xs:element name="Item3D" minOccurs="0" maxOccurs="unbounded" type="tns:Item3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SubFixture3D_s2">
+		<xs:sequence>
+			<xs:element name="Item3D" minOccurs="0" maxOccurs="unbounded" type="tns:Item3D" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Cameras">
+		<xs:sequence>
+			<xs:element name="Camera" minOccurs="0" maxOccurs="unbounded" type="tns:Camera" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Camera">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="StageViewSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Matrix">
+		<xs:sequence>
+			<xs:element name="Settings" type="tns:MatrixSettings" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="MatrixPool">
+		<xs:sequence>
+			<xs:element name="Matrix" minOccurs="0" maxOccurs="unbounded" type="tns:Matrix" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="LayoutPool">
+		<xs:sequence>
+			<xs:element name="Group" minOccurs="0" maxOccurs="unbounded" type="tns:Group" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="LayoutData">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="LayoutViewSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="UserProfiles">
+		<xs:sequence>
+			<xs:element name="UserProfile" minOccurs="0" maxOccurs="unbounded" type="tns:UserProfile" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="UserProfile">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="UserStation">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="UserStationCollect">
+		<xs:sequence>
+			<xs:element name="UserStation" minOccurs="0" maxOccurs="unbounded" type="tns:UserStation" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperContainer">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperAreaCollect">
+		<xs:sequence>
+			<xs:element name="PixelMapperArea" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperArea" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperArea">
+		<xs:sequence>
+			<xs:element name="PixelMapperOutput" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperOutput" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperOutput">
+		<xs:sequence>
+			<xs:element name="PixelMapperPanel" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperPanel" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperPanel">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperPanelTypeCollect">
+		<xs:sequence>
+			<xs:element name="PixelMapperPanelType" minOccurs="0" maxOccurs="unbounded" type="tns:PixelMapperPanelType" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PixelMapperPanelType">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Settings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Global">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Show">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="MidiConfig">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_Root">
+		<xs:sequence>
+			<xs:element name="NDP_BUS" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_BUS" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_BUS">
+		<xs:sequence>
+			<xs:element name="NDP_CRATE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_CRATE" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_CRATE">
+		<xs:sequence>
+			<xs:element name="NDP_MODULE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_MODULE" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_MODULE">
+		<xs:sequence>
+			<xs:element name="NDP_DIMMER" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_DIMMER" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_DIMMER">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_STATUS">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_CUEPOOL">
+		<xs:sequence>
+			<xs:element name="NDP_CUE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_CUE" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_CUE">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_LOG">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_TESTTAB">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_PROFILES">
+		<xs:sequence>
+			<xs:element name="NDP_PROFILE" minOccurs="0" maxOccurs="unbounded" type="tns:NDP_PROFILE" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="NDP_PROFILE">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Arrangements">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Move">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Circle">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Matrix2D">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Views">
+		<xs:sequence>
+			<xs:element name="View" minOccurs="0" maxOccurs="unbounded" type="tns:View" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="View">
+		<xs:sequence>
+			<xs:element name="Widget" minOccurs="0" maxOccurs="unbounded" type="tns:Widget" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Widget">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ViewButtons">
+		<xs:sequence>
+			<xs:element name="ViewButtonPage" minOccurs="0" maxOccurs="unbounded" type="tns:ViewButtonPage" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ViewButtonPage">
+		<xs:sequence>
+			<xs:element name="ViewButton" minOccurs="0" maxOccurs="unbounded" type="tns:ViewButton" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ViewButton">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="GeneralDefaults">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="CuelistDefaults">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PresetDefaults">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="EffectDefaults">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ExecDefaults">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="StoreDefaults">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Forms">
+		<xs:sequence>
+			<xs:element name="Form" minOccurs="0" maxOccurs="unbounded" type="tns:Form" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Form">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Sound">
+		<xs:sequence>
+			<xs:element name="Soundchannel" minOccurs="0" maxOccurs="unbounded" type="tns:Soundchannel" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Soundchannel">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Oops">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="HwActivateSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Tools">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Display">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="LayerFilter">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SheetSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="UserSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Users">
+		<xs:sequence>
+			<xs:element name="User" minOccurs="0" maxOccurs="unbounded" type="tns:User" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="User">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="DMXRemotes">
+		<xs:sequence>
+			<xs:element name="RemoteDMX" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteDMX" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RemoteDMX">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="MidiRemotes">
+		<xs:sequence>
+			<xs:element name="RemoteMidi" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteMidi" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RemoteMidi">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="AnalogRemotes">
+		<xs:sequence>
+			<xs:element name="RemoteAnalog" minOccurs="0" maxOccurs="unbounded" type="tns:RemoteAnalog" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RemoteAnalog">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RemoteTypes">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SubTrack">
+		<xs:sequence>
+			<xs:element name="Event" minOccurs="0" maxOccurs="unbounded" type="tns:Event" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Track">
+		<xs:sequence>
+			<xs:element name="SubTrack" minOccurs="0" maxOccurs="unbounded" type="tns:SubTrack" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Timecodes">
+		<xs:sequence>
+			<xs:element name="Timecode" minOccurs="0" maxOccurs="unbounded" type="tns:Timecode" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Timecode">
+		<xs:sequence>
+			<xs:element name="Track" minOccurs="0" maxOccurs="unbounded" type="tns:Track" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Agendas">
+		<xs:sequence>
+			<xs:element name="Agenda" minOccurs="0" maxOccurs="unbounded" type="tns:Agenda" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Agenda">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Songs">
+		<xs:sequence>
+			<xs:element name="Song" minOccurs="0" maxOccurs="unbounded" type="tns:Song" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Song">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="FadeUnits">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ChannelFader">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Page">
+		<xs:sequence>
+			<xs:element name="Exec" minOccurs="0" maxOccurs="unbounded" type="tns:Exec" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Highlight">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Output">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Masters">
+		<xs:sequence>
+			<xs:element name="SpecialMaster" minOccurs="0" maxOccurs="unbounded" type="tns:SpecialMaster" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SpecialMaster">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Sequences">
+		<xs:sequence>
+			<xs:element name="SequencePool" minOccurs="0" maxOccurs="unbounded" type="tns:SequencePool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SequencePool">
+		<xs:sequence>
+			<xs:element name="Sequ" minOccurs="0" maxOccurs="unbounded" type="tns:Sequ" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Macro">
+		<xs:sequence>
+			<xs:element name="Macroline" minOccurs="0" maxOccurs="unbounded" type="tns:Macroline" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="cli" type="xs:boolean" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Macros">
+		<xs:sequence>
+			<xs:element name="MacroPool" minOccurs="0" maxOccurs="unbounded" type="tns:MacroPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="MacroPool">
+		<xs:sequence>
+			<xs:element name="Macro" minOccurs="0" maxOccurs="unbounded" type="tns:Macro" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Effect">
+		<xs:sequence>
+			<xs:element name="Effectline" minOccurs="0" maxOccurs="unbounded" type="tns:Effectline" />
+			<xs:element name="EFFECTDATA" minOccurs="0" maxOccurs="unbounded" type="tns:EFFECTDATA" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="default_master" type="xs:float" default="1.000" />
+		<xs:attribute name="default_speed" type="xs:float" default="1.000" />
+		<xs:attribute name="default_fade" type="xs:float" default="0.000" />
+		<xs:attribute name="default_on_off_time" type="xs:float" default="0.000" />
+		<xs:attribute name="default_swop_protect" type="xs:boolean" default="false" />
+		<xs:attribute name="default_kill_protect" type="xs:boolean" default="false" />
+		<xs:attribute name="default_auto_start" type="xs:boolean" default="false" />
+		<xs:attribute name="default_auto_stop" type="xs:boolean" default="false" />
+		<xs:attribute name="default_off_on_overwritten" type="xs:boolean" default="false" />
+		<xs:attribute name="default_speed_group" type="xs:unsignedInt" default="0" />
+		<xs:attribute name="default_speed_scale" type="xs:int" default="0" />
+	</xs:complexType>
+	<xs:complexType name="Effects">
+		<xs:sequence>
+			<xs:element name="EffectsPool" minOccurs="0" maxOccurs="unbounded" type="tns:EffectsPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="EffectsPool">
+		<xs:sequence>
+			<xs:element name="Effect" minOccurs="0" maxOccurs="unbounded" type="tns:Effect" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="BmpMod">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Bitmap">
+		<xs:sequence>
+			<xs:element name="BmpMod" minOccurs="0" maxOccurs="unbounded" type="tns:BmpMod" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Bitmaps">
+		<xs:sequence>
+			<xs:element name="BitmapsPool" minOccurs="0" maxOccurs="unbounded" type="tns:BitmapsPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="BitmapsPool">
+		<xs:sequence>
+			<xs:element name="Bitmap" minOccurs="0" maxOccurs="unbounded" type="tns:Bitmap" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Groups">
+		<xs:sequence>
+			<xs:element name="GroupPool" minOccurs="0" maxOccurs="unbounded" type="tns:GroupPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="GroupPool">
+		<xs:sequence>
+			<xs:element name="Group" minOccurs="0" maxOccurs="unbounded" type="tns:Group" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Group">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="FadePaths">
+		<xs:sequence>
+			<xs:element name="FadePathPool" minOccurs="0" maxOccurs="unbounded" type="tns:FadePathPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="FadePathPool">
+		<xs:sequence>
+			<xs:element name="FadePath" minOccurs="0" maxOccurs="unbounded" type="tns:FadePath" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="FadePath">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Worlds">
+		<xs:sequence>
+			<xs:element name="World" minOccurs="0" maxOccurs="unbounded" type="tns:World" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="World">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Preset">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Presets">
+		<xs:sequence>
+			<xs:element name="PresetPools" minOccurs="0" maxOccurs="unbounded" type="tns:PresetPools" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PresetPools">
+		<xs:sequence>
+			<xs:element name="PresetPool" minOccurs="0" maxOccurs="unbounded" type="tns:PresetPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PresetPool">
+		<xs:sequence>
+			<xs:element name="Preset" minOccurs="0" maxOccurs="unbounded" type="tns:Preset" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Colors">
+		<xs:sequence>
+			<xs:element name="ColorPool" minOccurs="0" maxOccurs="unbounded" type="tns:ColorPool" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ColorPool">
+		<xs:sequence>
+			<xs:element name="Color" minOccurs="0" maxOccurs="unbounded" type="tns:Color" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Color">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="key" type="xs:string" use="required" />
+		<xs:attribute name="r" type="xs:float" use="required" />
+		<xs:attribute name="g" type="xs:float" use="required" />
+		<xs:attribute name="b" type="xs:float" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Universes">
+		<xs:sequence>
+			<xs:element name="Universe" minOccurs="0" maxOccurs="unbounded" type="tns:Universe" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Universe">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="DMX">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Wheels">
+		<xs:sequence>
+			<xs:element name="Wheel" minOccurs="0" maxOccurs="unbounded" type="tns:Wheel" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Wheel">
+		<xs:sequence>
+			<xs:element name="Slot" minOccurs="0" maxOccurs="unbounded" type="tns:Slot" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="subattribute" type="xs:string" use="required" />
+		<xs:attribute name="attribute" type="xs:string" use="required" />
+		<xs:attribute name="feature" type="xs:string" use="required" />
+		<xs:attribute name="preset" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Slot">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="media_name" type="xs:string" use="required" />
+		<xs:attribute name="media_filename" type="xs:string" use="required" />
+		<xs:attribute name="media_properties" type="xs:string" use="required" />
+		<xs:attribute name="media_enum" type="xs:unsignedInt" default="4294967295" />
+		<xs:attribute name="r" type="xs:unsignedByte" default="255" />
+		<xs:attribute name="g" type="xs:unsignedByte" default="255" />
+		<xs:attribute name="b" type="xs:unsignedByte" default="255" />
+	</xs:complexType>
+	<xs:complexType name="FixtureTypes">
+		<xs:sequence>
+			<xs:element name="FixtureType" minOccurs="0" maxOccurs="unbounded" type="tns:FixtureType" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="FixtureType">
+		<xs:sequence>
+			<xs:element name="short_name" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="manufacturer" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="short_manufacturer" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="model" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="notes" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="revision" minOccurs="0" maxOccurs="unbounded" type="tns:revision" />
+			<xs:element name="Profiles" minOccurs="0" maxOccurs="1" type="tns:ArrayOfDMX_Profile" />
+			<xs:element name="Modules" type="tns:Modules" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Instances" type="tns:Instances" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Wheels" type="tns:Wheels" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="mode" type="xs:string" use="required" />
+		<xs:attribute name="scale" type="xs:float" default="1.000" />
+	</xs:complexType>
+	<xs:complexType name="ArrayOfDMX_Profile">
+		<xs:sequence>
+			<xs:element name="DMX_Profile" type="tns:DMX_Profile" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Instances">
+		<xs:sequence>
+			<xs:element name="Instance" minOccurs="0" maxOccurs="unbounded" type="tns:Instance" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Instance">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="type" type="xs:string" use="required" />
+		<xs:attribute name="patch" type="xs:int" use="required" />
+		<xs:attribute name="X" type="xs:float" default="0.000" />
+		<xs:attribute name="Y" type="xs:float" default="0.000" />
+		<xs:attribute name="Z" type="xs:float" default="0.000" />
+		<xs:attribute name="RX" type="xs:float" default="0.000" />
+		<xs:attribute name="RY" type="xs:float" default="0.000" />
+		<xs:attribute name="RZ" type="xs:float" default="0.000" />
+		<xs:attribute name="RW" type="xs:float" default="1.000" />
+		<xs:attribute name="locked" type="xs:boolean" default="false" />
+	</xs:complexType>
+	<xs:complexType name="ChannelFunction">
+		<xs:sequence>
+			<xs:element name="ChannelSet" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelSet" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="from" type="xs:float" use="required" />
+		<xs:attribute name="to" type="xs:float" use="required" />
+		<xs:attribute name="min_dmx" type="xs:int" default="0" />
+		<xs:attribute name="max_dmx" type="xs:int" default="255" />
+		<xs:attribute name="mode_dmx_start" type="xs:int" default="0" />
+		<xs:attribute name="mode_dmx_end" type="xs:int" default="255" />
+		<xs:attribute name="mode_dmx_mask" type="xs:int" default="0" />
+		<xs:attribute name="physfrom" type="xs:float" default="NaN" />
+		<xs:attribute name="physto" type="xs:float" default="NaN" />
+		<xs:attribute name="physadditional" type="xs:float" default="-65534.000" />
+		<xs:attribute name="phystime" type="xs:float" default="NaN" />
+		<xs:attribute name="wheel" type="xs:int" default="0" />
+		<xs:attribute name="subattribute" type="xs:string" />
+		<xs:attribute name="attribute" type="xs:string" />
+		<xs:attribute name="feature" type="xs:string" />
+		<xs:attribute name="preset" type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="ChannelSet">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="from_dmx" type="xs:int" use="required" />
+		<xs:attribute name="to_dmx" type="xs:int" use="required" />
+		<xs:attribute name="slot_index" type="xs:int" default="-1" />
+		<xs:attribute name="slot_from" type="xs:float" default="-0.500" />
+		<xs:attribute name="slot_to" type="xs:float" default="0.500" />
+		<xs:attribute name="auto_create" type="xs:boolean" default="false" />
+	</xs:complexType>
+	<xs:complexType name="ChannelType">
+		<xs:sequence>
+			<xs:element name="ChannelFunction" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelFunction" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="attribute" type="xs:string" use="required" />
+		<xs:attribute name="feature" type="xs:string" use="required" />
+		<xs:attribute name="preset" type="xs:string" use="required" />
+		<xs:attribute name="part" type="xs:int" default="0" />
+		<xs:attribute name="coarse" type="xs:int" default="-1" />
+		<xs:attribute name="fine" type="xs:int" default="-1" />
+		<xs:attribute name="ultra" type="xs:int" default="-1" />
+		<xs:attribute name="default" type="xs:float" default="0.000" />
+		<xs:attribute name="highlight" type="xs:int" use="required" />
+		<xs:attribute name="highlight_value" type="xs:float" default="NaN" />
+		<xs:attribute name="stage_value" type="xs:float" default="NaN" />
+		<xs:attribute name="MIB_fade" type="xs:int" default="-1" />
+		<xs:attribute name="snap" type="xs:boolean" default="false" />
+		<xs:attribute name="invert" type="xs:boolean" default="false" />
+		<xs:attribute name="grandmaster" type="xs:boolean" default="false" />
+		<xs:attribute name="mode" type="xs:string" use="required" />
+		<xs:attribute name="is_pool" type="xs:boolean" default="false" />
+		<xs:attribute name="profile_index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Modules">
+		<xs:sequence>
+			<xs:element name="Module" minOccurs="0" maxOccurs="unbounded" type="tns:Module" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Module">
+		<xs:sequence>
+			<xs:element name="model" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Body" type="tns:BodyDimensions" minOccurs="0" maxOccurs="1" />
+			<xs:element name="ChannelType" minOccurs="0" maxOccurs="unbounded" type="tns:ChannelType" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="class" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="None" />
+					<xs:enumeration value="Mirror" />
+					<xs:enumeration value="Headmover" />
+					<xs:enumeration value="Conventional" />
+					<xs:enumeration value="LED" />
+					<xs:enumeration value="Video Keystone" />
+					<xs:enumeration value="Video Effect Master" />
+					<xs:enumeration value="Video Layer" />
+					<xs:enumeration value="Video Output" />
+					<xs:enumeration value="Video Splitscreen" />
+					<xs:enumeration value="Moving Path" />
+					<xs:enumeration value="Video Master" />
+					<xs:enumeration value="Grandma Bitmap Layer" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="beamtype" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="None" />
+					<xs:enumeration value="Spot" />
+					<xs:enumeration value="Wash" />
+					<xs:enumeration value="Effect" />
+					<xs:enumeration value="Fibre" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="scale" type="xs:float" default="1.000" />
+		<xs:attribute name="beam_angle" type="xs:float" use="required" />
+		<xs:attribute name="beam_intensity" type="xs:float" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Attribute">
+		<xs:sequence>
+			<xs:element name="SubAttribute" minOccurs="0" maxOccurs="unbounded" type="tns:SubAttribute" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="SubAttribute">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Feature">
+		<xs:sequence>
+			<xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded" type="tns:Attribute" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PresetTypes">
+		<xs:sequence>
+			<xs:element name="PresetType" minOccurs="0" maxOccurs="unbounded" type="tns:PresetType" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PresetType">
+		<xs:sequence>
+			<xs:element name="Feature" minOccurs="0" maxOccurs="unbounded" type="tns:Feature" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Setup">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Kinet1">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Shownet">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="sACN">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Pathport">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ETCNet2">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ArtnetData">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Artnet">
+		<xs:sequence>
+			<xs:element name="ArtnetData" minOccurs="0" maxOccurs="unbounded" type="tns:ArtnetData" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="DMX_Protocols">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Local">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="TimeConfig">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="CueTrigger">
+		<xs:attribute name="type" default="Go">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Go" />
+					<xs:enumeration value="Time" />
+					<xs:enumeration value="Follow" />
+					<xs:enumeration value="Sound" />
+					<xs:enumeration value="BPM" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="data_i" type="xs:int" default="0" />
+		<xs:attribute name="data_f" type="xs:float" default="0.000" />
+	</xs:complexType>
+	<xs:complexType name="CueNumber">
+		<xs:attribute name="number" type="xs:unsignedInt" default="65535" />
+		<xs:attribute name="sub_number" type="xs:unsignedInt" default="65535" />
+	</xs:complexType>
+	<xs:complexType name="revision">
+		<xs:attribute name="date" type="xs:string" use="required" />
+		<xs:attribute name="text" type="xs:string" use="required" />
+		<xs:attribute name="generator_software_name" type="xs:string" use="required" />
+		<xs:attribute name="generator_software_version" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Fixtures">
+		<xs:sequence>
+			<xs:element name="Fixture" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Patch">
+		<xs:sequence>
+			<xs:element name="PatchItem" minOccurs="0" maxOccurs="unbounded" type="tns:PatchItem" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PatchItem">
+		<xs:sequence>
+			<xs:element name="Address" minOccurs="0" maxOccurs="unbounded" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Helper">
+		<xs:sequence>
+			<xs:element name="Fixture" minOccurs="0" maxOccurs="unbounded" type="tns:Fixture" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="BodyDimensions">
+		<xs:sequence>
+			<xs:element name="Size" type="tns:Vector3" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Center" type="tns:Vector3" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Light" type="tns:Vector3" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Temp">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RemoteSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="PresetColors">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="ColorDialog">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="HelpSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="TimecodeDialogSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="DialogSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="MatrixSettings">
+		<xs:attribute name="active" type="xs:boolean" default="false" />
+		<xs:attribute name="index_x" type="xs:int" default="-1" />
+		<xs:attribute name="index_y" type="xs:int" default="-1" />
+		<xs:attribute name="block_x" type="xs:int" default="1" />
+		<xs:attribute name="block_y" type="xs:int" default="1" />
+		<xs:attribute name="group_x" type="xs:int" default="1" />
+		<xs:attribute name="group_y" type="xs:int" default="1" />
+		<xs:attribute name="interleave" type="xs:int" default="1" />
+		<xs:attribute name="wings" type="xs:int" default="1" />
+		<xs:attribute name="wingstyle" default="None">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="None" />
+					<xs:enumeration value="Pan" />
+					<xs:enumeration value="Tilt" />
+					<xs:enumeration value="PanTilt" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ExecFix">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="EncoderResolution">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="EnviromentVariables">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="MaXmlInfo">
+		<xs:attribute name="datetime" type="xs:string" />
+		<xs:attribute name="showfile" type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="AddressLink">
+		<xs:sequence>
+			<xs:element name="No" minOccurs="0" maxOccurs="unbounded" type="xs:int" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="ChannelLink">
+		<xs:attribute name="fixture_id" type="xs:int" default="0" />
+		<xs:attribute name="channel_id" type="xs:int" default="0" />
+		<xs:attribute name="subfixture_id" type="xs:int" default="1" />
+		<xs:attribute name="attribute_name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="EFFECTDATA">
+		<xs:attribute name="line" type="xs:int" use="required" />
+		<xs:attribute name="fixture" type="xs:string" use="required" />
+		<xs:attribute name="flags" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="rate" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="v1" type="xs:float" use="required" />
+		<xs:attribute name="v1_p" type="xs:string" use="required" />
+		<xs:attribute name="v2" type="xs:float" use="required" />
+		<xs:attribute name="v2_p" type="xs:string" use="required" />
+		<xs:attribute name="phase" type="xs:int" use="required" />
+		<xs:attribute name="width" type="xs:unsignedInt" use="required" />
+	</xs:complexType>
+	<xs:complexType name="ColSettings">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="VideoData">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RDM_Universes">
+		<xs:sequence>
+			<xs:element name="RDM_Universe" minOccurs="0" maxOccurs="unbounded" type="tns:RDM_Universe" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RDM_Universe">
+		<xs:sequence>
+			<xs:element name="RDM_Fixture" minOccurs="0" maxOccurs="unbounded" type="tns:RDM_Fixture" />
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="RDM_Fixture">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Dictionary">
+		<xs:attribute name="index" type="xs:int" default="-1" />
+	</xs:complexType>
+	<xs:complexType name="Vector3">
+		<xs:attribute name="x" type="xs:float" default="0.000" />
+		<xs:attribute name="y" type="xs:float" default="0.000" />
+		<xs:attribute name="z" type="xs:float" default="0.000" />
+	</xs:complexType>
+</xs:schema>
