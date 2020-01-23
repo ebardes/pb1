@@ -1,18 +1,18 @@
 
 
 StellarisWare=../tw
-CompilerPath=${HOME}/arm/gcc-arm-none-eabi
-CompilerBin=${CompilerPath}/bin
+# CompilerPath=${HOME}/arm/gcc-arm-none-eabi
+# CompilerBin=${CompilerPath}/bin/
 
-CC=${CompilerBin}/arm-none-eabi-gcc
+CC=${CompilerBin}arm-none-eabi-gcc
 CFLAGS=-mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=soft -Os -ffunction-sections -fdata-sections -MD -std=c11 -Wall -fno-builtin -pedantic -DPART_TM4C123GH6PM -I${StellarisWare} -Dgcc -g
 
-LD=${CompilerBin}/arm-none-eabi-ld 
+LD=${CompilerBin}arm-none-eabi-ld 
 LDFLAGS=-g
 
-OBJCOPY=${CompilerBin}/arm-none-eabi-objcopy
-OBJDUMP=${CompilerBin}/arm-none-eabi-objdump
-OBJSIZE=${CompilerBin}/arm-none-eabi-size
+OBJCOPY=${CompilerBin}arm-none-eabi-objcopy
+OBJDUMP=${CompilerBin}arm-none-eabi-objdump
+OBJSIZE=${CompilerBin}arm-none-eabi-size
 
 
 all: ma.bin map.xml
